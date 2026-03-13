@@ -4,7 +4,7 @@ import logo from '../src/assets/images/logo.png'
 function App() {
 
   return (
-    <div className="min-h-screen bg-linear-to-r from-emerald-500 via-teal-500 to-cyan-500 flex flex-col items-center justify-center px-4 relative overflow-hidden ">
+    <div className="md:min-h-screen h-screen bg-linear-to-r from-emerald-500 via-teal-500 to-cyan-500 flex flex-col items-center justify-center px-4 relative overflow-hidden ">
 
       {/* Particelle animate */}
       <div className="absolute inset-0">
