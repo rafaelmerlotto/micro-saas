@@ -24,8 +24,9 @@ export default function Login() {
 
         try {
             const response = await sign_in(email, password);
+            console.log("Risposta dal server:", response.user);
             if (response.token) {
-                login(response.token)
+                login(response.token, response.user)
                 navigate("/dashboard")
             } else {
                 throw new Error("Token mancante nella risposta");
