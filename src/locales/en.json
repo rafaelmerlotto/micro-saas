@@ -1,0 +1,9 @@
+{
+    "login": {
+        "welcome_back": "Welcome back, sign in.",
+        "login_prompt": "Or sign in with your email address",
+        "remember_me": "Remember me",
+        "forgot_password": "Forgot password?",
+        "login": "Login"
+    }
+}
