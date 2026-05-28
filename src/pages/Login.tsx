@@ -5,7 +5,7 @@ import { useAuth } from '../auth/auth';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import GithubLoginButton from '../components/GithubLoginButton';
 import { useTranslation } from 'react-i18next';
-import logo from '../assets/images/logo.png';
+import logo from '../assets/images/logo@.png';
 import { sign_in } from '../api/users';
 
 export default function Login() {
@@ -40,7 +40,7 @@ export default function Login() {
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-600/40 to-cyan-700/40">
+        <div className="min-h-screen bg-gradient-to-br from-blue-600/40 to-cyan-700/40 font-[var(--font-inter)]">
             {/* Header */}
 
 
@@ -49,7 +49,7 @@ export default function Login() {
                     <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
                         <div className="text-center mb-8">
                             <div className="inline-flex items-center justify-center  ">
-                                <img src={logo} alt="Logo" className="w-40 md:w-80  transition-opacity duration-500" />
+                                <img src={logo} alt="Logo" className="w-20 md:w-36  transition-opacity duration-500" />
                             </div>
                             <h1 className="text-2xl font-medium text-neutral-800 ">{t("login.welcome_back")}</h1>
 

@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
 
+body {
+  font-family: "Rubik", sans-serif;
+
+}
+
+
 @keyframes float {
   0% {
     transform: translateY(0px) translateX(0px);
