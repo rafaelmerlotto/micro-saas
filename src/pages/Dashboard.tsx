@@ -1,15 +1,28 @@
 import React from 'react'
 import { currentUser } from '../api/users'
 import { useAuth } from '../auth/auth';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
+import ProjectCard from '../components/Card';
+import Feed from '../components/Feed';
 
 export default function Dashboard() {
 
-    const { user, logout } = useAuth();
 
     return (
-        <div>Dashboard
-            <div>{user?.email}</div>
-            <button onClick={logout}>Logout</button>
+        <div className="min-h-screen bg-gray-50">
+
+            {/* Header */}
+            <Header />
+
+            {/* Main Content */}
+            <main className="max-w-7xl mx-auto px-6 py-8">
+                <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                    <Feed />
+                </div>
+
+            </main>
+
         </div>
     )
 }

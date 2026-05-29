@@ -5,5 +5,25 @@
         "remember_me": "Remember me",
         "forgot_password": "Forgot password?",
         "login": "Login"
+    },
+    "card": {
+        "looking_for": "Looking for:",
+        "visit_website": "Visit website",
+        "comment": "Comment",
+        "addComment": "Add a comment..."
+    },
+    "feed": {
+        "no_projects": "No projects found. Check back later!",
+        "publish": "Publish project",
+        "discover": "Discover SaaS Ideas",
+        "description": "Find projects, founders and collaboration opportunities",
+        "loading": "Loading projects..."
+    },
+    "header": {
+        "home": "Home",
+        "feed": "Feed",
+        "profile": "Profile",
+        "logout": "Logout",
+        "search": "Search projects..."
     }
 }

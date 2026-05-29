@@ -49,7 +49,7 @@ export default function Login() {
                 <div className="max-w-xl w-full">
                     <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
                         <div className="text-center mb-8">
-                            <div className="inline-flex items-center justify-center  ">
+                            <div className="inline-flex items-center justify-center">
                                 <img src={logo} alt="Logo" className="w-20 md:w-36  transition-opacity duration-500" />
                             </div>
                             <h1 className="text-2xl font-medium text-neutral-800 ">{t("login.welcome_back")}</h1>
