@@ -4,6 +4,7 @@ import logo from '../assets/images/logo@.png';
 import { useTranslation } from "react-i18next";
 import { getProjects } from "../api/projects";
 import Modal from "./Modal";
+import CreateProject from "./CreateProject";
 
 
 
@@ -83,9 +84,7 @@ export default function Feed() {
                 onClose={() => setOpen(false)}
                 title="Create Project"
             >
-                <p className="text-gray-600">
-                    Qui puoi mettere un form, comments, ecc.
-                </p>
+                <CreateProject />
             </Modal>
 
         </div>
