@@ -1,5 +1,5 @@
 
-export const main_url: string = "http://localhost:3000"
+export const main_url: string = "https://micro-saas-si.onrender.com"
 
 export const userService = new URL(`${main_url}/api/v1/users`)
 export const projectService = new URL(`${main_url}/api/v1/projects`)

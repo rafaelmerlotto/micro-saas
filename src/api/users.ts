@@ -6,7 +6,7 @@ const token: string | null = localStorage.getItem("token");
 
 
 export async function sign_in(email: string, password: string): Promise<any> {
-    const res = await fetch("http://localhost:3000/api/v1/users/sign_in", {
+    const res = await fetch("https://micro-saas-si.onrender.com/api/v1/users/sign_in", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export async function sign_in(email: string, password: string): Promise<any> {
 // Render current user
 export async function currentUser(): Promise<any> {
 
-    const res = await fetch(`http://localhost:3000/users/session`, {
+    const res = await fetch(`https://micro-saas-si.onrender.com/users/session`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
