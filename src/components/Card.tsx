@@ -1,7 +1,7 @@
 import { Bookmark, Ellipsis, Heart, SquareArrowOutUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { createComment, getComments } from "../api/comments";
+import { createComment, deleteComment, getComments } from "../api/comments";
 import type { Comment } from "../types/commentType";
 import Comments from "./Comments";
 import { useForm } from "react-hook-form";
@@ -64,6 +64,13 @@ export default function ProjectCard({ project }: { project: Project }) {
             setLoading(false);
         });
     }, []);
+
+
+    const handleDelete = (id: number) => {
+        setComments((prev) =>
+            prev.filter((c) => c.id !== id)
+        );
+    };
 
 
     let bgClass: string = "";
@@ -213,7 +220,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
             {/* Comments */}
             <div className="mt-5">
-                <Comments comments={comments} loading={loading} />
+                <Comments comments={comments} loading={loading} projectID={project.id} onDeleteComment={handleDelete} />
             </div>
 
         </div>

@@ -1,15 +1,32 @@
 import React from 'react'
 import type { Comment } from '../types/commentType'
 import { useTranslation } from 'react-i18next';
+import { deleteComment } from '../api/comments';
+import { Trash2 } from 'lucide-react';
+import { useAuth } from '../auth/auth';
 
 type CommentsProps = {
-    comments: any[];
+    comments: Comment[];
     loading: boolean;
+    projectID: number;
+    onDeleteComment: (id: number) => void;
 };
 
-export default function Comments({ comments, loading }: CommentsProps) {
+export default function Comments({ comments, loading, projectID, onDeleteComment }: CommentsProps) {
 
     const { t } = useTranslation();
+    const { user } = useAuth();
+
+    const handleDeleteComment = async (id: number) => {
+        try {
+            await deleteComment(projectID, id);
+            onDeleteComment(id);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
 
     return (
         <div className="mt-6">
@@ -53,13 +70,30 @@ export default function Comments({ comments, loading }: CommentsProps) {
                                 </div>
 
                                 {/* Comment */}
-                                <div className="mt-1 rounded-xl bg-gray-50 px-4 py-3 border border-gray-100">
+                                <div className="mt-1 rounded-xl bg-gray-50 border border-gray-100 px-4 py-3">
 
-                                    <p className="text-sm text-gray-700 break-words">
-                                        {comment.content}
-                                    </p>
+                                    <div className="flex items-start justify-between gap-3">
+
+                                        {/* Content */}
+                                        <p className="text-sm text-gray-700 break-words flex-1">
+                                            {comment.content}
+                                        </p>
+
+                                        {/* Delete */}
+                                        {comment.user?.id === user.id && (
+                                            <button
+                                                onClick={() => handleDeleteComment(comment.id)}
+                                                className="shrink-0 text-gray-400 hover:text-red-500 transition"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        )}
+
+                                    </div>
 
                                 </div>
+
+
 
                             </div>
 

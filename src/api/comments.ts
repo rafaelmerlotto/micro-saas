@@ -43,3 +43,18 @@ export async function createComment({ content, user, project }: Comment): Promis
     }
     return await res.json();
 }
+
+
+export async function deleteComment( project : number, id: number): Promise<any> {
+    const res = await fetch(`${url}/projects/${project}/comments/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token ?? ""
+        },
+    });
+    if (!res.ok) {
+        throw new Error("Errore nella risposta");
+    }
+    return await res.json();
+}
