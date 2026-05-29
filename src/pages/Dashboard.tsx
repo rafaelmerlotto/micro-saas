@@ -16,7 +16,7 @@ export default function Dashboard() {
             <Header />
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-6 py-8">
+            <main className="max-w-7xl mx-auto px-6 py-30">
                 <div className="rounded-2xl border border-gray-200 bg-white p-6">
                     <Feed />
                 </div>
