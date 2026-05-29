@@ -16,7 +16,7 @@ export default function Modal({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center md:px-0 px-4">
 
             {/* Overlay */}
             <div

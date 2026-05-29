@@ -43,7 +43,7 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
             }, 800);
 
         } catch (error) {
-            console.error("Errore nell'invio:", error);
+            console.error("Error", error);
         } finally {
             setIsSubmitting(false);
         }
@@ -57,12 +57,12 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                 {/* Title */}
                 <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Project title
+                        {t("create_project.name")}
                     </label>
                     <input
                         {...register("title", { required: true })}
                         type="text"
-                        placeholder="My SaaS idea"
+                        placeholder={t("create_project.title_placeholder")}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
                     />
                 </div>
@@ -70,7 +70,7 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                 {/* Stage */}
                 <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Stage
+                        {t("create_project.stage")}
                     </label>
 
                     <select
@@ -78,9 +78,9 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                         name="stage"
                         className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
                     >
-                        <option value="" className="bg-neutral-900">select</option>
-                        <option value="idea" className="bg-neutral-900">idea</option>
-                        <option value="mvp" className="bg-neutral-900">mvp</option>
+                        <option value="" className="bg-neutral-900">{t("create_project.stage_placeholder")}</option>
+                        <option value="idea" className="bg-neutral-900">{t("create_project.stage_idea")}</option>
+                        <option value="mvp" className="bg-neutral-900">{t("create_project.stage_mvp")}</option>
                         <option value="live" className="bg-neutral-900">launched</option>
                     </select>
 
@@ -89,12 +89,12 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                 {/* Short description */}
                 <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Short description
+                        {t("create_project.short_description")}
                     </label>
                     <input
                         {...register("short_description", { required: true })}
                         type="text"
-                        placeholder="One line summary"
+                        placeholder={t("create_project.short_description_placeholder")}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
                     />
                 </div>
@@ -102,7 +102,7 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                 {/* Description */}
                 <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Description
+                        {t("create_project.description")}
                     </label>
                     <textarea
                         {...register("description", { required: true })}
@@ -114,12 +114,12 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                 {/* Tech stack */}
                 <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Tech stack
+                        {t("create_project.tech_stack")}
                     </label>
                     <input
                         {...register("tech_stack", { required: true })}
                         type="text"
-                        placeholder="React, Rails, PostgreSQL"
+                        placeholder={t("create_project.tech_stack_placeholder")}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
                     />
                 </div>
@@ -127,12 +127,12 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                 {/* Looking for */}
                 <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Looking for
+                        {t("create_project.looking_for")}
                     </label>
                     <input
                         {...register("looking_for", { required: true })}
                         type="text"
-                        placeholder="Co-founder, Dev, Designer..."
+                        placeholder={t("create_project.looking_for_placeholder")}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
                     />
                 </div>
@@ -140,17 +140,17 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                 {/* Website */}
                 <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Website
+                        {t("create_project.website")}
                     </label>
                     <input
                         {...register("website")}
                         type="url"
-                        placeholder="https://..."
+                        placeholder={t("create_project.website_placeholder")}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
                     />
                 </div>
 
-                <input type="text" {...register('user', { required: true })} value={user?.id} className="" />
+                <input type="text" {...register('user', { required: true })} value={user?.id} className="hidden" />
 
 
             </div>
@@ -163,7 +163,7 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                     disabled={isSubmitting}
                     className="w-full sm:w-auto rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-600/80 hover:to-cyan-700/80 text-white px-5 py-2 text-sm font-medium transition"
                 >
-                    {t("createProject.create")}
+                    {t("create_project.create")}
                 </button>
 
             </div>

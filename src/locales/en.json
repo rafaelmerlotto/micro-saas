@@ -28,5 +28,25 @@
         "profile": "Profile",
         "logout": "Logout",
         "search": "Search projects..."
+    },
+    "create_project": {
+        "title": "Create a new project",
+        "title_placeholder": "My SaaS idea",
+        "name": "Project Name",
+        "description": "Description",
+        "submit": "Create Project",
+        "stage": "Stage",
+        "stage_placeholder": "Select stage",
+        "stage_idea": "Idea",
+        "stage_mvp": "MVP",
+        "short_description": "Short Description",
+        "short_description_placeholder": "One line summary",
+        "tech_stack": "Tech Stack",
+        "tech_stack_placeholder": "React, Rails, PostgreSQL",
+        "looking_for": "Looking for",
+        "looking_for_placeholder": "Co-founder, Dev, Designer...",
+        "website": "Website",
+        "website_placeholder": "https://...",
+        "create": "Create"
     }
 }
