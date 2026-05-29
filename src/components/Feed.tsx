@@ -3,15 +3,16 @@ import ProjectCard, { type Project } from "./Card";
 import logo from '../assets/images/logo@.png';
 import { useTranslation } from "react-i18next";
 import { getProjects } from "../api/projects";
+import Modal from "./Modal";
 
 
 
 
 export default function Feed() {
     const [projects, setProjects] = useState<Project[]>([]);
-
     const [loading, setLoading] = useState(true);
     const { t } = useTranslation();
+    const [open, setOpen] = useState(false);
 
 
     useEffect(() => {
@@ -40,7 +41,7 @@ export default function Feed() {
                         MicroSaaS.si
                     </h1>
 
-                    <button className="rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-600/80 hover:to-cyan-700/80 text-white px-4 py-2 text-sm font-medium transition">
+                    <button onClick={() => setOpen(true)} className="rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-600/80 hover:to-cyan-700/80 text-white px-4 py-2 text-sm font-medium transition">
                         {t("feed.publish")}
                     </button>
 
@@ -77,6 +78,16 @@ export default function Feed() {
                 </div>
 
             </main>
+            <Modal
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                title="Create Project"
+            >
+                <p className="text-gray-600">
+                    Qui puoi mettere un form, comments, ecc.
+                </p>
+            </Modal>
+
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { currentUser } from '../api/users'
 import { useAuth } from '../auth/auth';
 import Sidebar from '../components/Sidebar';
@@ -7,6 +7,7 @@ import ProjectCard from '../components/Card';
 import Feed from '../components/Feed';
 
 export default function Dashboard() {
+
 
 
     return (
