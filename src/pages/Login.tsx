@@ -55,7 +55,6 @@ export default function Login() {
                             <h1 className="text-2xl font-medium text-neutral-800 ">{t("login.welcome_back")}</h1>
 
                             <div className='w-full pt-10 flex justify-center items-center gap-10'>
-                                <GoogleLoginButton />
                                 <GithubLoginButton />
                             </div>
 
