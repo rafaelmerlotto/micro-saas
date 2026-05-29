@@ -84,7 +84,12 @@ export default function Feed() {
                 onClose={() => setOpen(false)}
                 title="Create Project"
             >
-                <CreateProject />
+                <CreateProject
+                    setOpen={setOpen}
+                    onProjectCreated={(project) =>
+                        setProjects((prev) => [project, ...prev])
+                    }
+                />
             </Modal>
 
         </div>

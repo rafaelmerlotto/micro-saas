@@ -4,9 +4,14 @@ import { useForm } from 'react-hook-form';
 import { createProject } from '../api/projects';
 import type { Project } from './Card';
 import { useTranslation } from "react-i18next";
+import { useNavigate, type NavigateFunction } from 'react-router';
 
+type CreateProjectProps = {
+    setOpen: (value: boolean) => void;
+    onProjectCreated: (project: Project) => void;
+};
 
-export default function CreateProject() {
+export default function CreateProject({ setOpen, onProjectCreated }: CreateProjectProps) {
 
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
@@ -15,22 +20,27 @@ export default function CreateProject() {
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const { user } = useAuth();
     const { t } = useTranslation();
+    const navigate: NavigateFunction = useNavigate();
+
 
 
 
     const onSubmit = async (data: Project) => {
         setIsSubmitting(true);
-        console.log("Submitting project:", data);
+
         try {
             const newProject = await createProject(data);
-            setProjects((prev) => [...prev, newProject]);
+            onProjectCreated(newProject);
+            setProjects((prev) => [newProject, ...prev]);
+
             setSubmitSuccess(true);
 
             setTimeout(() => {
                 reset();
                 setSubmitSuccess(false);
-                navigate("/");
-            }, 2000);
+                setOpen(false);
+                navigate("/dashboard");
+            }, 800);
 
         } catch (error) {
             console.error("Errore nell'invio:", error);
