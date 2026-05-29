@@ -2,52 +2,30 @@ import React, { useEffect, useState } from "react";
 import ProjectCard, { type Project } from "./Card";
 import logo from '../assets/images/logo@.png';
 import { useTranslation } from "react-i18next";
+import { getProjects } from "../api/projects";
+
 
 
 
 export default function Feed() {
     const [projects, setProjects] = useState<Project[]>([]);
+
     const [loading, setLoading] = useState(true);
     const { t } = useTranslation();
 
 
     useEffect(() => {
-        // mock data (poi lo sostituisci con API Rails)
-        const data: Project[] = [
-            {
-                id: 1,
-                title: "InvoiceFlow",
-                short_description: "Simple invoicing tool for freelancers",
-                description:
-                    "A simple and fast invoicing platform designed for freelancers and indie hackers. A simple and fast invoicing platform designed for freelancers and indie hackers. A simple and fast invoicing platform designed for freelancers and indie hackers. A simple and fast invoicing platform designed for freelancers and indie hackers.",
-                stage: "mvp",
-                tech_stack: ["Rails", "React", "PostgreSQL"],
-                looking_for: "Frontend Developer",
-                website: "https://invoiceflow.app",
-                user: {
-                    email: "founder@microsaas.si",
-                },
-            },
-            {
-                id: 2,
-                title: "MicroJobs",
-                short_description: "Micro job board for indie hackers",
-                description:
-                    "A lightweight job board where indie hackers can find micro opportunities and gigs.",
-                stage: "idea",
-                tech_stack: ["Next.js", "Supabase"],
-                looking_for: "Co-founder",
-                website: "https://microjobs.app",
-                user: {
-                    email: "dev@microsaas.si",
-                },
-            },
-        ];
 
-        setTimeout(() => {
-            setProjects(data);
+        getProjects().then((res: any) => {
+            setTimeout(() => {
+                setProjects(res);
+                setLoading(false);
+            }, 500);
+        }).catch((err) => {
+            console.error("Error fetching projects:", err);
             setLoading(false);
-        }, 500);
+        });
+
     }, []);
 
     return (
@@ -62,7 +40,7 @@ export default function Feed() {
                         MicroSaaS.si
                     </h1>
 
-                    <button className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition">
+                    <button className="rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-600/80 hover:to-cyan-700/80 text-white px-4 py-2 text-sm font-medium transition">
                         {t("feed.publish")}
                     </button>
 

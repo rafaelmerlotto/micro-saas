@@ -10,7 +10,10 @@
         "looking_for": "Looking for:",
         "visit_website": "Visit website",
         "comment": "Comment",
-        "addComment": "Add a comment..."
+        "addComment": "Add a comment...",
+        "comments": "Comments",
+        "no_comments": "No comments yet. Be the first to comment!",
+        "loading_comments": "Loading comments..."
     },
     "feed": {
         "no_projects": "No projects found. Check back later!",
