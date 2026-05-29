@@ -41,7 +41,7 @@ export default function Login() {
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-600/40 to-cyan-700/40 font-[var(--font-inter)]">
+        <div className="min-h-screen bg-gradient-to-br from-blue-600/40 to-cyan-700/40 ">
             {/* Header */}
 
 

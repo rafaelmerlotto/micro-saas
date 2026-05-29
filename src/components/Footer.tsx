@@ -138,13 +138,6 @@ export default function Footer() {
                             href="#"
                             className="hover:text-black transition"
                         >
-                            Twitter
-                        </a>
-
-                        <a
-                            href="#"
-                            className="hover:text-black transition"
-                        >
                             GitHub
                         </a>
 
