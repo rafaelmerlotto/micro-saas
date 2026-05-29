@@ -1,6 +1,7 @@
 export type Comment = {
     id: number;
     content: string;
+
     user?: {
         email: string;
     };

@@ -1,9 +1,11 @@
 import { Bookmark, Ellipsis, Heart, SquareArrowOutUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getComments } from "../api/comments";
+import { createComment, getComments } from "../api/comments";
 import type { Comment } from "../types/commentType";
 import Comments from "./Comments";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../auth/auth";
 
 
 export type Project = {
@@ -25,6 +27,30 @@ export default function ProjectCard({ project }: { project: Project }) {
     const { t } = useTranslation();
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState(true);
+    const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<Comment>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+    const { user } = useAuth();
+
+
+    const onSubmit = async (data: Comment) => {
+        setIsSubmitting(true);
+        try {
+            const newComment = await createComment(data);
+            setComments((prev) => [...prev, newComment]);
+            setSubmitSuccess(true);
+
+            setTimeout(() => {
+                reset();
+                setSubmitSuccess(false);
+            }, 2000);
+
+        } catch (error) {
+            console.error("Errore nell'invio:", error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
 
     useEffect(() => {
@@ -164,13 +190,20 @@ export default function ProjectCard({ project }: { project: Project }) {
 
                     {/* Input */}
                     <input
+                        {...register('content', { required: true })}
                         type="text"
                         placeholder={t("card.addComment")}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black"
                     />
 
+                    <input type="text" {...register('user', { required: true })} value={user?.id} className="hidden" />
+                    <input type="text" {...register('project', { required: true })} value={project.id} className="hidden" />
+
                     {/* Button */}
-                    <button className=" sm:w-auto w-1/3 rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-600/80 hover:to-cyan-700/80 text-white px-4 py-2  md:text-sm text-xs font-medium transition whitespace-nowrap">
+                    <button
+                        onClick={handleSubmit(onSubmit)}
+                        disabled={isSubmitting}
+                        className=" sm:w-auto w-1/3 rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-600/80 hover:to-cyan-700/80 text-white px-4 py-2  md:text-sm text-xs font-medium transition whitespace-nowrap">
                         {t("card.comment")}
                     </button>
 

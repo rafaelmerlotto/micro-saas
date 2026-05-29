@@ -1,3 +1,4 @@
+import type { Comment } from "../types/commentType";
 import { commentService } from "./service";
 
 
@@ -21,4 +22,24 @@ export async function getComments(project_id: number): Promise<any> {
     const data = await res.json();
     console.log("Response:", data);
     return data;
+}
+
+
+export async function createComment({ content, user, project }: Comment): Promise<any> {
+    const res = await fetch(`${url}/projects/${project}/comments`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token ?? ""
+        },
+        body: JSON.stringify({
+            content: content,
+            user_id: user,
+            project_id: project
+        }),
+    });
+    if (!res.ok) {
+        throw new Error("Errore nella risposta");
+    }
+    return await res.json();
 }
