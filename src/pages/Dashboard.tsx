@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import ProjectCard from '../components/Card';
 import Feed from '../components/Feed';
+import Footer from '../components/Footer';
 
 export default function Dashboard() {
 
@@ -23,6 +24,7 @@ export default function Dashboard() {
                 </div>
 
             </main>
+            <Footer />
 
         </div>
     )
