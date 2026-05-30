@@ -7,6 +7,7 @@ import GithubLoginButton from '../components/GithubLoginButton';
 import { useTranslation } from 'react-i18next';
 import logo from '../assets/images/logo@.png';
 import { sign_in } from '../api/users';
+import Footer from '../components/Footer';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -43,7 +44,12 @@ export default function Login() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-600/40 to-cyan-700/40 ">
             {/* Header */}
+            <header className="py-6 px-6 flex justify-between items-center max-w-7xl mx-auto">
+                <div className="flex items-center gap-2">
+                    <img src={logo} alt="Logo" className="w-10 md:w-14  transition-opacity duration-500" />
+                </div>
 
+            </header>
 
             <section className="flex items-center justify-center py-12 px-4">
                 <div className="max-w-xl w-full">
@@ -125,11 +131,15 @@ export default function Login() {
                                     </>
                                 )}
                             </button>
+
+                            <p className="text-sm text-neutral-500 mt-10">
+                                Dont have an account yet? <button onClick={() => window.location.href = '/login'} className="text-neutral-700 hover:underline">Create an account</button>
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
-
+            <Footer />
         </div>
     );
 }

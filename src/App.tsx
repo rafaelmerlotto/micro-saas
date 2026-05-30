@@ -4,6 +4,7 @@ import { useEffect, type JSX } from "react"
 import { useAuth } from "./auth/auth"
 import Dashboard from "./pages/Dashboard"
 import Profile from "./pages/Profile"
+import Home from "./pages/Home"
 
 
 export default function App() {
@@ -11,6 +12,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard' element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
         <Route path='/profile' element={<PrivateRoute><Profile /> </PrivateRoute>} />

@@ -1,13 +1,13 @@
 // components/GithubLoginButton.jsx
 const GithubLoginButton = () => {
     const handleGithubLogin = () => {
-        const apiUrl: string = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        const apiUrl: string = import.meta.env.VITE_API_URL;
         window.location.href = `${apiUrl}/api/v1/users/auth/github`;
     };
 
     return (
         <form
-            action="https://micro-saas-si.onrender.com/api/v1/users/auth/github"
+            action={`${import.meta.env.VITE_API_URL}/api/v1/users/auth/github`}
             method="POST"
         >
             <button type="submit" className="flex items-center justify-center gap-3 px-5 py-2.5 bg-white border border-gray-300 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 active:scale-[0.98] transition-all duration-150 font-medium text-gray-700">
