@@ -6,7 +6,7 @@ const token: string | null = localStorage.getItem("token");
 
 
 export async function sign_in(email: string, password: string): Promise<any> {
-    const res = await fetch(`${url}/api/v1/users/sign_in`, {
+    const res = await fetch(`${url}/sign_in`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export async function sign_in(email: string, password: string): Promise<any> {
 // Render current user
 export async function currentUser(): Promise<any> {
 
-    const res = await fetch(`${url}/users/session`, {
+    const res = await fetch(`${url}/session`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
