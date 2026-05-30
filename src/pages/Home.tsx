@@ -23,7 +23,7 @@ const Home = () => {
         const loadProjects = async () => {
             try {
                 const response = await fetch(
-                    "http://localhost:3000/api/v1/projects/recent",
+                    `${import.meta.env.VITE_API_URL}/api/v1/projects/recent`,
                     {
                         method: "GET",
                         headers: {
@@ -171,7 +171,7 @@ const Home = () => {
                             <h2 className="text-2xl font-semibold text-neutral-800">recent projects</h2>
                             <p className="text-neutral-600 text-sm">what the community is building right now</p>
                         </div>
-                    
+
                     </div>
                     <div className="grid md:grid-cols-3 gap-5">
                         {projects.map((p, i) => (
@@ -209,7 +209,7 @@ const Home = () => {
                 </div>
             </section>
 
-           <Footer/>
+            <Footer />
         </div>
     );
 };
