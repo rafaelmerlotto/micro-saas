@@ -8,7 +8,7 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto py-6 sm:py-8 px-4 sm:px-6">
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
                     <p className="text-neutral-600 text-xs">
-                        © 2025 microsaas.si — built for founders & builders 🇸🇮
+                        © 2026 microsaas.si — built for founders & builders 🇸🇮
                     </p>
 
                     <div className="flex items-center gap-4 sm:gap-6">

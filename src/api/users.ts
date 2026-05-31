@@ -15,7 +15,23 @@ export async function sign_in(email: string, password: string): Promise<any> {
         body: JSON.stringify({ user: { email, password } }),
     });
     if (!res.ok) {
-        throw new Error('Login fallito');
+        throw new Error('Login failed.');
+    }
+    const data = await res.json();
+    return data;
+}
+
+export async function sign_up(email: string, password: string, fullName: string): Promise<any> {
+    const res = await fetch(`${url}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({ user: { email, password, fullName } }),
+    });
+    if (!res.ok) {
+        throw new Error('Login failed.');
     }
     const data = await res.json();
     return data;
@@ -32,7 +48,7 @@ export async function currentUser(): Promise<any> {
         },
     });
     if (!res.ok) {
-        throw new Error("Errore nella risposta");
+        throw new Error("An error occurred while processing the response.");
     }
     return await res.json();
 }

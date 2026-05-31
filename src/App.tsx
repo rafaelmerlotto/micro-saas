@@ -6,6 +6,8 @@ import Dashboard from "./pages/Dashboard"
 import Profile from "./pages/Profile"
 import Home from "./pages/Home"
 import PrivacyPolicy from "./pages/Privacy"
+import TermsOfUse from "./pages/Terms"
+import Register from "./pages/Register"
 
 
 export default function App() {
@@ -15,7 +17,9 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Register />} />
         <Route path='/privacy' element={<PrivacyPolicy />} />
+        <Route path='/terms' element={<TermsOfUse />} />
         <Route path='/dashboard' element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
         <Route path='/profile' element={<PrivateRoute><Profile /> </PrivateRoute>} />
         <Route path="/oauth-success" element={<OAuthSuccess />} />
