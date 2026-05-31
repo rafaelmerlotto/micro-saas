@@ -5,6 +5,7 @@ import { useAuth } from "./auth/auth"
 import Dashboard from "./pages/Dashboard"
 import Profile from "./pages/Profile"
 import Home from "./pages/Home"
+import PrivacyPolicy from "./pages/Privacy"
 
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/privacy' element={<PrivacyPolicy />} />
         <Route path='/dashboard' element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
         <Route path='/profile' element={<PrivateRoute><Profile /> </PrivateRoute>} />
         <Route path="/oauth-success" element={<OAuthSuccess />} />

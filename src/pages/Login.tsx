@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, Mail, Lock, ArrowRight, FileText, Shield, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, ArrowRight, FileText, Shield, CheckCircle, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate, type NavigateFunction } from 'react-router';
 import { useAuth } from '../auth/auth';
 import GoogleLoginButton from '../components/GoogleLoginButton';
@@ -52,14 +52,15 @@ export default function Login() {
             {/* Header */}
             <header className="py-4 px-4 sm:py-5 sm:px-6 flex justify-between items-center max-w-7xl mx-auto relative z-10">
                 <div className="flex items-center gap-2 group">
-                    <Link to={'/'}>
-                        <img
-                            src={logo}
-                            alt="Logo"
-                            className="w-8 sm:w-10 md:w-12 transition-all duration-500 group-hover:scale-105"
-                        />
-                    </Link>
+                    <img src={logo} alt="Logo" className="w-8 sm:w-10 md:w-12 transition-all duration-500 group-hover:scale-105" />
                 </div>
+                <button
+                    onClick={() => window.location.href = '/'}
+                    className="flex items-center gap-2 text-neutral-600 hover:text-neutral-800 transition-all duration-300 text-sm font-medium bg-white/10 backdrop-blur-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-white/20"
+                >
+                    <ArrowLeft className="w-4 h-4" />
+                    <span>Back to home</span>
+                </button>
             </header>
 
             <section className="flex items-center justify-center py-8 sm:py-12 px-4 relative z-10">
