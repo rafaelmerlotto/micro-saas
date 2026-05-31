@@ -74,7 +74,7 @@ export default function Header() {
                         {/* Dropdown Menu */}
                         {isDropdownOpen && (
                             <div
-                                className="absolute right-0 mt-2 w-56 bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 py-1 animate-fade-in-up"
+                                className="absolute right-0 mt-2 w-56 bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 py-1 animate-fade-in-up z-70"
                                 onMouseLeave={() => setIsDropdownOpen(false)}
                             >
                                 <div className="px-4 py-3 border-b border-gray-100">

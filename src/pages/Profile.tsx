@@ -1,32 +1,59 @@
 import { Mail, Globe, MapPin, Pencil } from "lucide-react";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useAuth } from "../auth/auth";
+import { userProjects } from "../api/users";
+import { useEffect, useState } from "react";
+import { type Project } from "../components/Card";
 
 
 export default function Profile() {
 
-    const user = {
-        name: "Rafael Merlotto",
-        email: "founder@microsaas.si",
-        bio: "Building micro SaaS products and connecting indie makers.",
-        location: "Slovenia",
-        website: "https://microsaas.si",
-        github: "https://github.com/rafael",
-        linkedin: "https://linkedin.com/in/rafael",
+    const { user } = useAuth();
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [loading, setLoading] = useState(true);
+
+
+
+    useEffect(() => {
+        if (!user?.id) return;
+
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+
+                const data = await userProjects(user.id);
+
+                setProjects(data.projects ?? data);
+
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [user?.id]);
+
+
+    const getStageClass = (stage: string) => {
+        switch (stage) {
+            case "idea":
+                return "bg-yellow-100 text-yellow-700";
+
+            case "mvp":
+                return "bg-blue-100 text-blue-700";
+
+            case "launched":
+                return "bg-green-100 text-green-700";
+
+            default:
+                return "bg-gray-100 text-gray-700";
+        }
     };
 
-    const projects = [
-        {
-            id: 1,
-            title: "InvoiceFlow",
-            description: "Simple invoicing platform for freelancers.",
-        },
-        {
-            id: 2,
-            title: "MicroJobs",
-            description: "Micro job board for indie hackers.",
-        },
-    ];
+
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -55,7 +82,7 @@ export default function Profile() {
                             <div>
 
                                 <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                                    {user.name}
+                                    {user.email.split("@")[0]}
                                 </h1>
 
                                 <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-gray-500">
@@ -90,10 +117,6 @@ export default function Profile() {
                                         </div>
                                     </a>
 
-
-
-
-
                                 </div>
 
                             </div>
@@ -115,7 +138,7 @@ export default function Profile() {
                 </div>
 
                 {/* Stats */}
-                <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {/* <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
 
                     <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
                         <p className="text-sm text-gray-500">Projects</p>
@@ -138,7 +161,7 @@ export default function Profile() {
                         </h3>
                     </div>
 
-                </div>
+                </div> */}
 
                 {/* Projects */}
                 <div className="mt-8">
@@ -153,25 +176,27 @@ export default function Profile() {
 
                     <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
 
-                        {projects.map((project) => (
+                        {projects.map((p: any, i) => (
 
                             <div
-                                key={project.id}
-                                className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
+                                key={i}
+                                className="group bg-white backdrop-blur-sm border border-gray-200 rounded-2xl p-5 hover:bg-white/20 hover:scale-[1.02] transition-all duration-300 hover:shadow-xl"
                             >
-
-                                <h3 className="text-lg font-semibold text-gray-900">
-                                    {project.title}
-                                </h3>
-
-                                <p className="mt-2 text-sm text-gray-600">
-                                    {project.description}
+                                <div className="flex justify-between items-start mb-2">
+                                    <h3 className="font-semibold text-neutral-800 text-lg">{p.title}</h3>
+                                    <span className={`text-[11px] font-medium ${getStageClass(p.stage)} px-2 py-0.5 rounded-full shadow-sm`}>{p.stage}</span>
+                                </div>
+                                <p className="text-neutral-600 text-sm mb-3 leading-relaxed">{p.description}</p>
+                                <div className="flex flex-wrap gap-1.5 mb-3">
+                                    {p.tech_stack.map((t: any) => (
+                                        <span key={t} className="text-[11px] text-neutral-600 bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+                                <p className="text-xs text-neutral-700">
+                                    looking for: <span className="text-neutral-500 font-medium">{p.looking_for}</span>
                                 </p>
-
-                                <button className="mt-4 text-sm font-medium text-blue-600 hover:text-blue-700">
-                                    View project →
-                                </button>
-
                             </div>
 
                         ))}

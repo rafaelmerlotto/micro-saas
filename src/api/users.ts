@@ -52,3 +52,19 @@ export async function currentUser(): Promise<any> {
     }
     return await res.json();
 }
+
+
+export async function userProjects(userId: number): Promise<any> {
+
+    const res = await fetch(`${url}/${userId}/projects`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token ?? ""
+        },
+    });
+    if (!res.ok) {
+        throw new Error("An error occurred while processing the response.");
+    }
+    return await res.json();
+}
