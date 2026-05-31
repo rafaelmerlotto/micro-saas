@@ -37,7 +37,7 @@ export default function Feed() {
             });
 
             const res = await fetch(
-                `http://localhost:3000/api/v1/projects?${params.toString()}`
+                `${import.meta.env.VITE_API_URL}/api/v1/projects?${params.toString()}`
             );
 
             const data = await res.json();
