@@ -101,7 +101,7 @@ const Home = () => {
                         <span className="block text-neutral-700 text-3xl md:text-4xl mt-2">Locally. Practically.</span>
                     </h1>
                     <p className="text-neutral-600 text-lg max-w-md mx-auto lg:mx-0 leading-relaxed">
-                        A community platform for the Slovenian SaaS ecosystem — founders & devs share ideas, validate concepts, and find collaborators.
+                        A community platform for the Slovenian MicroSaaS ecosystem — founders & devs share ideas, validate concepts, and find collaborators.
                     </p>
                     <div className="flex flex-wrap gap-3 justify-center lg:justify-start pt-4">
                         <div className="text-cyan-700/90 flex items-center gap-2 text-sm bg-white/15 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/20">
@@ -121,7 +121,7 @@ const Home = () => {
                             </div>
                             <h2 className="text-2xl font-bold text-neutral-800 mb-2">Ready to build?</h2>
                             <p className="text-neutral-600 text-sm leading-relaxed">
-                                Join the Slovenian SaaS community. Share ideas, validate concepts, and find collaborators.
+                                Join the Slovenian MicroSaaS community. Share ideas, validate concepts, and find collaborators.
                             </p>
                         </div>
 
@@ -220,7 +220,7 @@ const Home = () => {
                     <div className="bg-white/15 backdrop-blur-md rounded-2xl p-8 border border-white/30 text-center hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
                         <h2 className="text-2xl font-semibold text-neutral-800 mb-2">Start building today</h2>
                         <p className="text-neutral-600 text-sm max-w-md mx-auto mb-6 leading-relaxed">
-                            Join the Slovenian SaaS community. Share ideas, validate concepts, and find collaborators — all in one place.
+                            Join the Slovenian MicroSaaS community. Share ideas, validate concepts, and find collaborators — all in one place.
                         </p>
                         <button
                             onClick={() => window.location.href = '/login'}
