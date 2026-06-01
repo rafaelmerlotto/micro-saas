@@ -10,7 +10,6 @@ type ModalProps = {
 export default function Modal({
     isOpen,
     onClose,
-    title,
     children,
 }: ModalProps) {
     if (!isOpen) return null;
@@ -27,23 +26,7 @@ export default function Modal({
             {/* Modal box */}
             <div className="relative z-10 w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
 
-                {/* Header */}
-                <div className="flex items-center justify-between mb-4">
-
-                    {title && (
-                        <h2 className="text-lg font-semibold text-gray-900">
-                            {title}
-                        </h2>
-                    )}
-
-                    <button
-                        onClick={onClose}
-                        className="text-gray-400 hover:text-black"
-                    >
-                        ✕
-                    </button>
-
-                </div>
+            
 
                 {/* Content */}
                 <div>{children}</div>

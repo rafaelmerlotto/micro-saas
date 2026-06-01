@@ -5,6 +5,7 @@ import { createProject } from '../api/projects';
 import type { Project } from './Card';
 import { useTranslation } from "react-i18next";
 import { useNavigate, type NavigateFunction } from 'react-router';
+import { X, Plus, Trash2 } from 'lucide-react';
 
 type CreateProjectProps = {
     setOpen: (value: boolean) => void;
@@ -12,36 +13,41 @@ type CreateProjectProps = {
 };
 
 export default function CreateProject({ setOpen, onProjectCreated }: CreateProjectProps) {
-
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [loading, setLoading] = useState(true);
-    const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<Comment>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<Project>();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitSuccess, setSubmitSuccess] = useState(false);
+    const [techStackArray, setTechStackArray] = useState<string[]>([]);
+    const [currentTech, setCurrentTech] = useState('');
     const { user } = useAuth();
     const { t } = useTranslation();
-    const navigate: NavigateFunction = useNavigate();
+    const navigate = useNavigate();
 
+    const handleAddTech = () => {
+        if (currentTech.trim() && !techStackArray.includes(currentTech.trim())) {
+            setTechStackArray([...techStackArray, currentTech.trim()]);
+            setCurrentTech('');
+        }
+    };
 
-
+    const handleRemoveTech = (tech: string) => {
+        setTechStackArray(techStackArray.filter(t => t !== tech));
+    };
 
     const onSubmit = async (data: Project) => {
         setIsSubmitting(true);
 
         try {
-            const newProject = await createProject(data);
+            const projectData = {
+                ...data,
+                tech_stack: techStackArray
+            };
+            const newProject = await createProject(projectData);
             onProjectCreated(newProject);
-            setProjects((prev) => [newProject, ...prev]);
-
-            setSubmitSuccess(true);
-
+            reset();
+            setTechStackArray([]);
             setTimeout(() => {
-                reset();
-                setSubmitSuccess(false);
                 setOpen(false);
                 navigate("/dashboard");
             }, 800);
-
         } catch (error) {
             console.error("Error", error);
         } finally {
@@ -50,124 +56,186 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
     };
 
     return (
-        <div className="mt-5 border-t border-gray-100 pt-4">
+        <div className="w-full max-w-4xl mx-auto px-4 sm:px-0 max-h-[90vh] overflow-y-auto">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 sticky top-0 bg-white z-10">
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                    {t("create_project.title")}
+                </h2>
+                <button
+                    onClick={() => setOpen(false)}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                    <X className="w-5 h-5 text-gray-500" />
+                </button>
+            </div>
 
-            <div className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {/* Grid layout per campi principali */}
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    {/* Title */}
+                    <div className="sm:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            {t("create_project.name")} <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            {...register("title", { required: true })}
+                            type="text"
+                            placeholder={t("create_project.title_placeholder")}
+                            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                        />
+                        {errors.title && (
+                            <p className="mt-1 text-xs text-red-500">Title is required</p>
+                        )}
+                    </div>
 
-                {/* Title */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("create_project.name")}
-                    </label>
-                    <input
-                        {...register("title", { required: true })}
-                        type="text"
-                        placeholder={t("create_project.title_placeholder")}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
-                    />
+                    {/* Stage */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            {t("create_project.stage")} <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                            {...register("stage", { required: true })}
+                            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+                        >
+                            <option value="">{t("create_project.stage_placeholder")}</option>
+                            <option value="idea">{t("create_project.stage_idea")}</option>
+                            <option value="mvp">{t("create_project.stage_mvp")}</option>
+                            <option value="launched">Launched</option>
+                        </select>
+                    </div>
+
+                    {/* Short description */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            {t("create_project.short_description")}
+                        </label>
+                        <input
+                            {...register("short_description")}
+                            type="text"
+                            placeholder={t("create_project.short_description_placeholder")}
+                            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                        />
+                    </div>
                 </div>
 
-                {/* Stage */}
+                {/* Description - full width */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("create_project.stage")}
-                    </label>
-
-                    <select
-                        {...register("stage", { required: true })}
-                        name="stage"
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
-                    >
-                        <option value="" className="bg-neutral-900">{t("create_project.stage_placeholder")}</option>
-                        <option value="idea" className="bg-neutral-900">{t("create_project.stage_idea")}</option>
-                        <option value="mvp" className="bg-neutral-900">{t("create_project.stage_mvp")}</option>
-                        <option value="live" className="bg-neutral-900">launched</option>
-                    </select>
-
-                </div>
-
-                {/* Short description */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("create_project.short_description")}
-                    </label>
-                    <input
-                        {...register("short_description", { required: true })}
-                        type="text"
-                        placeholder={t("create_project.short_description_placeholder")}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
-                    />
-                </div>
-
-                {/* Description */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("create_project.description")}
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        {t("create_project.description")} <span className="text-red-500">*</span>
                     </label>
                     <textarea
                         {...register("description", { required: true })}
-                        placeholder="Explain your project..."
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm min-h-[100px] focus:ring-1 focus:ring-black"
+                        placeholder="Explain your project in detail..."
+                        rows={4}
+                        className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-y"
                     />
                 </div>
 
-                {/* Tech stack */}
+                {/* Tech stack with dynamic tags */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("create_project.tech_stack")}
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        {t("create_project.tech_stack")} <span className="text-red-500">*</span>
                     </label>
-                    <input
-                        {...register("tech_stack", { required: true })}
-                        type="text"
-                        placeholder={t("create_project.tech_stack_placeholder")}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
-                    />
+                    <div className="flex flex-col sm:flex-row gap-2">
+                        <input
+                            type="text"
+                            value={currentTech}
+                            onChange={(e) => setCurrentTech(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTech())}
+                            placeholder={t("create_project.tech_stack_placeholder")}
+                            className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                        />
+                        <button
+                            type="button"
+                            onClick={handleAddTech}
+                            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition"
+                        >
+                            <Plus className="w-4 h-4" />
+                            <span className="hidden sm:inline">Add</span>
+                        </button>
+                    </div>
+
+                    {/* Tech tags */}
+                    {techStackArray.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-3">
+                            {techStackArray.map((tech) => (
+                                <span
+                                    key={tech}
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-sm"
+                                >
+                                    {tech}
+                                    <button
+                                        type="button"
+                                        onClick={() => handleRemoveTech(tech)}
+                                        className="hover:bg-blue-100 rounded-full p-0.5 transition"
+                                    >
+                                        <Trash2 className="w-3 h-3" />
+                                    </button>
+                                </span>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
-                {/* Looking for */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("create_project.looking_for")}
-                    </label>
-                    <input
-                        {...register("looking_for", { required: true })}
-                        type="text"
-                        placeholder={t("create_project.looking_for_placeholder")}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
-                    />
+                {/* Grid per looking_for e website */}
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            {t("create_project.looking_for")} <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            {...register("looking_for", { required: true })}
+                            type="text"
+                            placeholder={t("create_project.looking_for_placeholder")}
+                            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            {t("create_project.website")}
+                        </label>
+                        <input
+                            {...register("website")}
+                            type="url"
+                            placeholder={t("create_project.website_placeholder")}
+                            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                        />
+                    </div>
                 </div>
 
-                {/* Website */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("create_project.website")}
-                    </label>
-                    <input
-                        {...register("website")}
-                        type="url"
-                        placeholder={t("create_project.website_placeholder")}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-1 focus:ring-black"
-                    />
+                {/* Hidden user field */}
+                <input type="hidden" {...register('user')} value={user?.id} />
+
+                {/* Actions */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200 sticky bottom-0 bg-white py-4">
+                    <button
+                        type="button"
+                        onClick={() => setOpen(false)}
+                        className="order-2 sm:order-1 px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="order-1 sm:order-2 flex-1 sm:flex-none px-6 py-2.5 bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-700/70 hover:to-cyan-700/70 text-white text-sm font-medium rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {isSubmitting ? (
+                            <span className="flex items-center justify-center gap-2">
+                                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Creating...
+                            </span>
+                        ) : (
+                            t("create_project.create")
+                        )}
+                    </button>
                 </div>
-
-                <input type="text" {...register('user', { required: true })} value={user?.id} className="hidden" />
-
-
-            </div>
-
-            {/* Actions */}
-            <div className="mt-6 flex justify-end">
-
-                <button
-                    onClick={handleSubmit(onSubmit)}
-                    disabled={isSubmitting}
-                    className="w-full sm:w-auto rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-600/80 hover:to-cyan-700/80 text-white px-5 py-2 text-sm font-medium transition"
-                >
-                    {t("create_project.create")}
-                </button>
-
-            </div>
-
-        </div >
+            </form>
+        </div>
     )
 }

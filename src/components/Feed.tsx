@@ -77,7 +77,7 @@ export default function Feed() {
                             alt="Logo"
                             className="w-6 sm:w-6 md:w-8 transition-all duration-500 group-hover:scale-105"
                         />
-                     
+
                     </Link>
 
                     {/* SEARCH DESKTOP */}
@@ -102,7 +102,7 @@ export default function Feed() {
 
                             <input
                                 type="text"
-                                placeholder={t("feed.search") || "Search..."}
+                                placeholder={"Search..."}
                                 value={search}
                                 onChange={(e) => handleSearch(e.target.value)}
                                 className="w-full rounded-lg border border-gray-200 bg-gray-50/50 pl-9 pr-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
@@ -202,7 +202,6 @@ export default function Feed() {
             <Modal
                 isOpen={open}
                 onClose={() => setOpen(false)}
-                title="Create Project"
             >
                 <CreateProject
                     setOpen={setOpen}

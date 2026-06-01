@@ -117,7 +117,7 @@ export default function Comments({ comments, loading, projectID, onDeleteComment
             ) : (
 
                 <div className="rounded-xl border border-dashed border-gray-200 p-6 text-center">
-                    <p className="text-sm text-gray-500">
+                    <p className="md:text-sm text-xs  text-gray-500">
                         {t("card.no_comments")}
                     </p>
                 </div>
