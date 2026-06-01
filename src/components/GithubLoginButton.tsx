@@ -2,7 +2,7 @@
 const GithubLoginButton = () => {
     const handleGithubLogin = () => {
         const apiUrl: string = import.meta.env.VITE_API_URL;
-        window.location.href = `http://localhost:3000/api/v1/users/auth/github`;
+        window.location.href = `${apiUrl}/api/v1/users/auth/github`;
     };
 
     return (
