@@ -77,9 +77,12 @@ export default function Login() {
                             <h1 className="text-xl sm:text-2xl font-semibold text-neutral-800 mb-1">{t("login.welcome_back")}</h1>
                             <p className="text-xs sm:text-sm text-neutral-600">Sign in to continue</p>
 
-                            <div className='w-full pt-6 sm:pt-8 flex justify-center items-center'>
+                            <div className='w-full pt-6 sm:pt-8 flex justify-center items-center gap-3 sm:gap-4'>
                                 <div className="transform transition-all duration-300 hover:scale-105">
                                     <GithubLoginButton />
+                                </div>
+                                <div className="transform transition-all duration-300 hover:scale-105">
+                                    <GoogleLoginButton />
                                 </div>
                             </div>
                         </div>
