@@ -205,8 +205,13 @@ export default function ProjectCard({ project }: { project: Project }) {
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
 
                     {/* Avatar */}
-                    <div className={`hidden sm:flex h-9 w-9 rounded-full ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/40 to-cyan-700/40'} text-white items-center justify-center text-xs font-medium shrink-0`}>
-                        <img src={user?.image || user?.email?.charAt(0).toUpperCase() || "U"} alt="" />
+
+                    <div className={`hidden sm:flex h-9 w-9 rounded-full ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/80 to-cyan-700/80'} text-white items-center justify-center text-xs font-medium shrink-0`}>
+                        {user?.image ? (
+                            <img src={user.image} alt="" className="w-full h-full rounded-full object-cover" />
+                        ) : (
+                            user?.email?.charAt(0).toUpperCase() || "U"
+                        )}
                     </div>
 
                     {/* Input */}

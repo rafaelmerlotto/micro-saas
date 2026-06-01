@@ -3,28 +3,34 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../auth/auth";
 import { User, LogOut, Settings, ChevronDown, Menu, X, Search } from "lucide-react";
 import { Link, useNavigate } from "react-router";
+import logo from "../assets/images/logo@.png";
 
 export default function Header() {
     const { user, logout } = useAuth();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false);
+    const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const desktopDropdownRef = useRef<HTMLDivElement>(null);
+    const mobileDropdownRef = useRef<HTMLDivElement>(null);
     const mobileMenuRef = useRef<HTMLDivElement>(null);
 
-
-    // Close dropdown when clicking outside
+    // Close desktop dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsDropdownOpen(false);
+            if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target as Node)) {
+                setIsDesktopDropdownOpen(false);
+            }
+            if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
+                setIsMobileDropdownOpen(false);
             }
             if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node) && isMobileMenuOpen) {
                 setIsMobileMenuOpen(false);
             }
         };
+
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [isMobileMenuOpen]);
@@ -32,12 +38,16 @@ export default function Header() {
     const handleLogout = () => {
         logout();
         navigate("/login");
-        setIsDropdownOpen(false);
+        setIsDesktopDropdownOpen(false);
+        setIsMobileDropdownOpen(false);
+        setIsMobileMenuOpen(false);
     };
 
     const handleProfile = () => {
         navigate("/profile");
-        setIsDropdownOpen(false);
+        setIsDesktopDropdownOpen(false);
+        setIsMobileDropdownOpen(false);
+        setIsMobileMenuOpen(false);
     };
 
     return (
@@ -46,36 +56,42 @@ export default function Header() {
                 {/* Left - Logo */}
                 <div className="flex items-center gap-3">
                     <Link to="/dashboard" className="flex items-center gap-2 group">
+                        <img
+                            src={logo}
+                            alt="Logo"
+                            className="w-6 sm:w-8 md:w-12 transition-all duration-500 group-hover:scale-105"
+                        />
                         <h1 className="text-lg font-semibold bg-gradient-to-r from-neutral-800 to-neutral-600 bg-clip-text text-transparent whitespace-nowrap group-hover:scale-105 transition-transform">
                             MicroSaaS.si
                         </h1>
                     </Link>
                 </div>
 
-
-
                 {/* Right - Actions */}
                 <div className="flex items-center gap-2 sm:gap-4">
 
-
                     {/* User Dropdown - Desktop */}
-                    <div className="hidden md:block relative" ref={dropdownRef}>
+                    <div className="hidden md:block relative" ref={desktopDropdownRef}>
                         <button
-                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                            onMouseEnter={() => setIsDropdownOpen(true)}
-                            className="flex items-center gap-2 rounded-full hover:bg-black/5 transition-colors p-1"
+                            onClick={() => setIsDesktopDropdownOpen(!isDesktopDropdownOpen)}
+                            onMouseEnter={() => setIsDesktopDropdownOpen(true)}
+                            className="flex items-center gap-2 rounded-full hover:bg-black/5 transition-colors p-1 cursor-pointer"
                         >
-                            <div className="h-9 w-9 rounded-full  text-white flex items-center justify-center text-sm font-medium shadow-md">
-                                <img src={user?.image || user?.email?.charAt(0).toUpperCase() || "U"} alt="" />
+                            <div className={`h-9 w-9 rounded-full ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/80 to-cyan-700/80'} text-white flex items-center justify-center text-sm font-medium shadow-md`}>
+                                {user?.image ? (
+                                    <img src={user.image} alt="" className="w-full h-full rounded-full object-cover" />
+                                ) : (
+                                    user?.email?.charAt(0).toUpperCase() || "U"
+                                )}
                             </div>
-                            <ChevronDown className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
+                            <ChevronDown className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${isDesktopDropdownOpen ? "rotate-180" : ""}`} />
                         </button>
 
-                        {/* Dropdown Menu */}
-                        {isDropdownOpen && (
+                        {/* Dropdown Menu Desktop */}
+                        {isDesktopDropdownOpen && (
                             <div
-                                className="absolute right-0 mt-2 w-56 bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 py-1 animate-fade-in-up z-70"
-                                onMouseLeave={() => setIsDropdownOpen(false)}
+                                className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-1 z-50"
+                                onMouseLeave={() => setIsDesktopDropdownOpen(false)}
                             >
                                 <div className="px-4 py-3 border-b border-gray-100">
                                     <p className="text-sm font-medium text-neutral-800 truncate">{user?.email}</p>
@@ -83,14 +99,14 @@ export default function Header() {
                                 </div>
                                 <button
                                     onClick={handleProfile}
-                                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
+                                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 hover:bg-gray-50 transition-colors text-left"
                                 >
                                     <User className="w-4 h-4" />
                                     <span>Profile</span>
                                 </button>
                                 <button
                                     onClick={handleLogout}
-                                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
                                 >
                                     <LogOut className="w-4 h-4" />
                                     <span>Logout</span>
@@ -99,10 +115,10 @@ export default function Header() {
                         )}
                     </div>
 
-                    {/* User Avatar - Mobile (with touch dropdown) */}
-                    <div className="md:hidden relative" ref={dropdownRef}>
+                    {/* User Avatar - Mobile */}
+                    <div className="md:hidden relative" ref={mobileDropdownRef}>
                         <button
-                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
                             className="flex items-center gap-2 rounded-full hover:bg-black/5 transition-colors p-1"
                         >
                             <div className="h-9 w-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 text-white flex items-center justify-center text-sm font-medium shadow-md">
@@ -110,25 +126,23 @@ export default function Header() {
                             </div>
                         </button>
 
-                        {/* Mobile Dropdown Menu */}
-                        {isDropdownOpen && (
-                            <div
-                                className="absolute right-0 mt-2 w-64 bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 py-1 animate-fade-in-up"
-                            >
+                        {/* Dropdown Menu Mobile */}
+                        {isMobileDropdownOpen && (
+                            <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 py-1 z-50">
                                 <div className="px-4 py-3 border-b border-gray-100">
                                     <p className="text-sm font-medium text-neutral-800 truncate">{user?.email}</p>
                                     <p className="text-xs text-neutral-500 mt-0.5">Founder</p>
                                 </div>
                                 <button
                                     onClick={handleProfile}
-                                    className="w-full flex items-center gap-3 px-4 py-3 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
+                                    className="w-full flex items-center gap-3 px-4 py-3 text-sm text-neutral-700 hover:bg-gray-50 transition-colors text-left"
                                 >
                                     <User className="w-4 h-4" />
                                     <span>Profile</span>
                                 </button>
                                 <button
                                     onClick={handleLogout}
-                                    className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                                    className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
                                 >
                                     <LogOut className="w-4 h-4" />
                                     <span>Logout</span>
@@ -139,13 +153,11 @@ export default function Header() {
                 </div>
             </div>
 
-
-
             {/* Mobile Menu - Full Screen Navigation */}
             {isMobileMenuOpen && (
                 <div
                     ref={mobileMenuRef}
-                    className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-white/95 backdrop-blur-md z-40 animate-slide-down"
+                    className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-white z-40"
                 >
                     <div className="flex flex-col p-6 space-y-4">
                         <Link
@@ -171,21 +183,15 @@ export default function Header() {
                         </Link>
                         <div className="border-t border-gray-100 pt-4 mt-2">
                             <button
-                                onClick={() => {
-                                    handleProfile();
-                                    setIsMobileMenuOpen(false);
-                                }}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors"
+                                onClick={handleProfile}
+                                className="w-full flex items-center gap-3 px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors text-left"
                             >
                                 <User className="w-5 h-5" />
                                 <span>Profile</span>
                             </button>
                             <button
-                                onClick={() => {
-                                    handleLogout();
-                                    setIsMobileMenuOpen(false);
-                                }}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                onClick={handleLogout}
+                                className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors text-left"
                             >
                                 <LogOut className="w-5 h-5" />
                                 <span>Logout</span>

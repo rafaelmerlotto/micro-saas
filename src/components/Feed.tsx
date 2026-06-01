@@ -75,11 +75,9 @@ export default function Feed() {
                         <img
                             src={logo}
                             alt="Logo"
-                            className="w-6 sm:w-8 md:w-12 transition-all duration-500 group-hover:scale-105"
+                            className="w-6 sm:w-6 md:w-8 transition-all duration-500 group-hover:scale-105"
                         />
-                        <h1 className="text-sm md:text-xl font-bold bg-gradient-to-r from-neutral-800 to-neutral-600 bg-clip-text text-transparent">
-                            MicroSaaS.si
-                        </h1>
+                     
                     </Link>
 
                     {/* SEARCH DESKTOP */}
@@ -172,7 +170,7 @@ export default function Feed() {
                         </button>
 
                         <div className="flex items-center gap-2">
-                            <span className="px-3 py-2 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 text-white text-sm font-medium min-w-[40px] text-center shadow-md">
+                            <span className="px-3 py-2 rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 text-white text-sm font-medium min-w-[40px] text-center shadow-md">
                                 {pagination.current_page}
                             </span>
                             <span className="text-neutral-500">/</span>
