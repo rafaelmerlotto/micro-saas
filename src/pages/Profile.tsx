@@ -74,8 +74,12 @@ export default function Profile() {
                         <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
 
                             {/* Avatar */}
-                            <div className={`flex h-24 w-24 items-center ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/40 to-cyan-700/40'} justify-center rounded-full text-4xl font-bold text-white shadow-lg`}>
-                                <img src={user?.image || user?.email?.charAt(0).toUpperCase() || "U"} alt="" />
+                            <div className={`h-24 w-24 rounded-full ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/80 to-cyan-700/80'} text-white flex items-center justify-center text-3xl font-medium shadow-md`}>
+                                {user?.image ? (
+                                    <img src={user.image} alt="" className="w-full h-full rounded-full object-cover" />
+                                ) : (
+                                    user?.email?.charAt(0).toUpperCase() || "U"
+                                )}
                             </div>
 
                             {/* Info */}
@@ -126,10 +130,7 @@ export default function Profile() {
                         {/* Right */}
                         <div className="flex items-center gap-3">
 
-                            <button className="inline-flex items-center gap-2 rounded-xl bg-black px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800">
-                                <Pencil className="h-4 w-4" />
-                                Edit profile
-                            </button>
+                           
 
                         </div>
 

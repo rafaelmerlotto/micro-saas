@@ -1,4 +1,4 @@
-import { Bookmark, Ellipsis, Heart, SquareArrowOutUpRight } from "lucide-react";
+import { Bookmark, Ellipsis, Heart, SquareArrowOutUpRight, Edit, Trash2, Flag } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createComment, deleteComment, getComments } from "../api/comments";
@@ -6,7 +6,7 @@ import type { Comment } from "../types/commentType";
 import Comments from "./Comments";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../auth/auth";
-
+import { likeProject, unlikeProject, bookmarkProject, unbookmarkProject, checkIfLiked, checkIfBookmarked, getLikeCount } from "../api/projects";
 
 export type Project = {
     id: number;
@@ -17,7 +17,10 @@ export type Project = {
     tech_stack: any;
     looking_for: string;
     website?: string;
+    user_id?: number;
+    like_count?: number;
     user?: {
+        id?: number;
         email: string;
         fullName: string;
         name: string;
@@ -25,16 +28,49 @@ export type Project = {
     };
 };
 
-export default function ProjectCard({ project }: { project: Project }) {
+export default function ProjectCard({ project, onUpdate }: { project: Project; onUpdate?: () => void }) {
 
     const { t } = useTranslation();
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState(true);
-    const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<Comment>();
+    const { register, handleSubmit, reset } = useForm<Comment>();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const { user } = useAuth();
 
+    // State per il dropdown
+    const [isEllipsisOpen, setIsEllipsisOpen] = useState(false);
+
+    // State per like e bookmark
+    const [isLiked, setIsLiked] = useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(false);
+    const [likeCount, setLikeCount] = useState(project.like_count || 0);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Verifica se l'utente corrente è il proprietario del progetto
+    const isCurrentUserOwner = project.user?.id === user?.id || project.user_id === user?.id;
+
+    // Carica lo stato iniziale di like e bookmark
+    useEffect(() => {
+        if (user) {
+            loadInteractionStatus();
+        }
+    }, [user, project.id]);
+
+    const loadInteractionStatus = async () => {
+        try {
+            const [liked, bookmarked, count] = await Promise.all([
+                checkIfLiked(project.id),
+                checkIfBookmarked(project.id),
+                getLikeCount(project.id)
+            ]);
+            setIsLiked(liked);
+            setIsBookmarked(bookmarked);
+            setLikeCount(count);
+        } catch (error) {
+            console.error("Error loading interaction status:", error);
+        }
+    };
 
     const onSubmit = async (data: Comment) => {
         setIsSubmitting(true);
@@ -55,7 +91,6 @@ export default function ProjectCard({ project }: { project: Project }) {
         }
     };
 
-
     useEffect(() => {
         getComments(project.id).then((res: any) => {
             setTimeout(() => {
@@ -66,15 +101,83 @@ export default function ProjectCard({ project }: { project: Project }) {
             console.error("Error fetching comments:", err);
             setLoading(false);
         });
-    }, []);
+    }, [project.id]);
 
-
-    const handleDelete = (id: number) => {
+    const handleDeleteComment = (id: number) => {
         setComments((prev) =>
             prev.filter((c) => c.id !== id)
         );
     };
 
+    // Handlers per like e bookmark
+    const handleLike = async () => {
+        if (!user) {
+            // Redirect to login o mostra notifica
+            console.log("Devi essere loggato per mettere like");
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            if (isLiked) {
+                const response = await unlikeProject(project.id);
+                setIsLiked(false);
+                setLikeCount(response.like_count);
+            } else {
+                const response = await likeProject(project.id);
+                setIsLiked(true);
+                setLikeCount(response.like_count);
+            }
+            if (onUpdate) onUpdate();
+        } catch (error) {
+            console.error("Error toggling like:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleBookmark = async () => {
+        if (!user) return;
+
+        setIsLoading(true);
+        try {
+            if (isBookmarked) {
+                await unbookmarkProject(project.id);
+                setIsBookmarked(false);
+            } else {
+                await bookmarkProject(project.id);
+                setIsBookmarked(true);
+            }
+            if (onUpdate) onUpdate();
+        } catch (error) {
+            console.error("Error toggling bookmark:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Handlers per il dropdown
+    const handleEdit = () => {
+        console.log("Edit project:", project.id);
+        // Naviga alla pagina di edit o apri un modal
+    };
+
+    const handleDeleteProject = () => {
+        console.log("Delete project:", project.id);
+        if (window.confirm("Are you sure you want to delete this project?")) {
+            // Chiamata API per eliminare
+        }
+    };
+
+    const handleReport = () => {
+        console.log("Report project:", project.id);
+        // Mostra un modal per la segnalazione
+        const reason = prompt("Why are you reporting this project?");
+        if (reason) {
+            // Chiamata API per segnalare
+            console.log("Report reason:", reason);
+        }
+    };
 
     let bgClass: string = "";
     switch (project.stage) {
@@ -130,23 +233,98 @@ export default function ProjectCard({ project }: { project: Project }) {
 
                 {/* Actions */}
                 <div className="flex items-center gap-3 self-end sm:self-auto">
-
                     <span className={`rounded-full ${bgClass} px-3 py-1 text-xs font-medium capitalize whitespace-nowrap`}>
                         {project.stage}
                     </span>
 
-                    <button>
-                        <Heart className="w-5 h-5 text-gray-400 hover:text-red-500 transition" />
+                    {/* Like Button */}
+                    <button
+                        onClick={handleLike}
+                        disabled={isLoading}
+                        className="flex items-center gap-1 group transition disabled:opacity-50"
+                    >
+                        <Heart
+                            className={`w-5 h-5 transition ${isLiked
+                                    ? "fill-red-500 text-red-500"
+                                    : "text-gray-400 group-hover:text-red-500"
+                                }`}
+                        />
+                        {likeCount > 0 && (
+                            <span className="text-xs text-gray-500">{likeCount}</span>
+                        )}
                     </button>
 
-                    <button>
-                        <Bookmark className="w-5 h-5 text-gray-400 hover:text-black transition" />
+                    {/* Bookmark Button */}
+                    <button
+                        onClick={handleBookmark}
+                        disabled={isLoading}
+                        className="transition disabled:opacity-50"
+                    >
+                        <Bookmark
+                            className={`w-5 h-5 transition ${isBookmarked
+                                    ? "fill-black text-black"
+                                    : "text-gray-400 hover:text-black"
+                                }`}
+                        />
                     </button>
 
-                    <button>
-                        <Ellipsis className="w-5 h-5 text-gray-400 hover:text-black transition" />
-                    </button>
+                    {/* Dropdown per Ellipsis */}
+                    <div className="relative">
+                        <button onClick={() => setIsEllipsisOpen(!isEllipsisOpen)}>
+                            <Ellipsis className="w-5 h-5 text-gray-400 hover:text-black transition" />
+                        </button>
 
+                        {isEllipsisOpen && (
+                            <>
+                                {/* Backdrop per chiudere cliccando fuori */}
+                                <div
+                                    className="fixed inset-0 z-40"
+                                    onClick={() => setIsEllipsisOpen(false)}
+                                />
+
+                                {/* Dropdown Menu */}
+                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                                    {isCurrentUserOwner ? (
+                                        // Opzioni per il proprietario del post
+                                        <>
+                                            <button
+                                                onClick={() => {
+                                                    setIsEllipsisOpen(false);
+                                                    handleEdit();
+                                                }}
+                                                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left"
+                                            >
+                                                <Edit className="w-4 h-4" />
+                                                <span>Edit</span>
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setIsEllipsisOpen(false);
+                                                    handleDeleteProject();
+                                                }}
+                                                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                                <span>Delete</span>
+                                            </button>
+                                        </>
+                                    ) : (
+                                        // Opzioni per altri utenti
+                                        <button
+                                            onClick={() => {
+                                                setIsEllipsisOpen(false);
+                                                handleReport();
+                                            }}
+                                            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-yellow-600 hover:bg-yellow-50 transition-colors text-left"
+                                        >
+                                            <Flag className="w-4 h-4" />
+                                            <span>Report</span>
+                                        </button>
+                                    )}
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
 
             </div>
@@ -167,7 +345,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             {/* Tech stack */}
             <div className="mt-4 flex flex-wrap gap-2">
 
-                {project.tech_stack.map((tech: string) => (
+                {project.tech_stack?.map((tech: string) => (
                     <span
                         key={tech}
                         className="rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-600"
@@ -205,7 +383,6 @@ export default function ProjectCard({ project }: { project: Project }) {
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
 
                     {/* Avatar */}
-
                     <div className={`hidden sm:flex h-9 w-9 rounded-full ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/80 to-cyan-700/80'} text-white items-center justify-center text-xs font-medium shrink-0`}>
                         {user?.image ? (
                             <img src={user.image} alt="" className="w-full h-full rounded-full object-cover" />
@@ -229,7 +406,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                     <button
                         onClick={handleSubmit(onSubmit)}
                         disabled={isSubmitting}
-                        className=" sm:w-auto w-1/3 rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-600/80 hover:to-cyan-700/80 text-white px-4 py-2  md:text-sm text-xs font-medium transition whitespace-nowrap">
+                        className="sm:w-auto w-1/3 rounded-lg bg-gradient-to-br from-blue-600/70 to-cyan-700/70 hover:from-blue-600/80 hover:to-cyan-700/80 text-white px-4 py-2 md:text-sm text-xs font-medium transition whitespace-nowrap disabled:opacity-50">
                         {t("card.comment")}
                     </button>
 
@@ -239,7 +416,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
             {/* Comments */}
             <div className="mt-5">
-                <Comments comments={comments} loading={loading} projectID={project.id} onDeleteComment={handleDelete} />
+                <Comments comments={comments} loading={loading} projectID={project.id} onDeleteComment={handleDeleteComment} />
             </div>
 
         </div>
