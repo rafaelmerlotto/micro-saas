@@ -19,6 +19,9 @@ export type Project = {
     website?: string;
     user?: {
         email: string;
+        fullName: string;
+        name: string;
+        image: string;
     };
 };
 
@@ -98,13 +101,24 @@ export default function ProjectCard({ project }: { project: Project }) {
                 {/* User */}
                 <div className="flex items-center gap-3">
 
-                    <div className="h-9 w-9 rounded-full bg-gradient-to-br from-blue-600/70 to-cyan-700/70 text-white flex items-center justify-center text-xs font-medium shrink-0">
-                        {project.user?.email?.charAt(0).toUpperCase()}
+                    <div className={`h-9 w-9 shrink-0 rounded-full flex items-center justify-center text-xs font-medium text-white ${project.user?.image
+                        ? ''
+                        : 'bg-gradient-to-br from-blue-600/70 to-cyan-700/70'
+                        }`}>
+                        {project.user?.image ? (
+                            <img
+                                src={project.user.image}
+                                alt="avatar"
+                                className="h-full w-full rounded-full object-cover"
+                            />
+                        ) : (
+                            (project.user?.email?.charAt(0).toUpperCase() || "U")
+                        )}
                     </div>
 
                     <div className="flex flex-col">
                         <span className="text-sm font-medium text-gray-900 break-all">
-                            {project.user?.email}
+                            {project.user?.fullName || project.user?.name || project.user?.email.split("@")[0]}
                         </span>
 
                         <small className="text-gray-400 text-xs">
@@ -191,8 +205,8 @@ export default function ProjectCard({ project }: { project: Project }) {
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
 
                     {/* Avatar */}
-                    <div className="hidden sm:flex h-9 w-9 rounded-full bg-gradient-to-br from-blue-600/70 to-cyan-700/70 text-white items-center justify-center text-xs font-medium shrink-0">
-                        {project.user?.email?.charAt(0).toUpperCase()}
+                    <div className={`hidden sm:flex h-9 w-9 rounded-full ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/40 to-cyan-700/40'} text-white items-center justify-center text-xs font-medium shrink-0`}>
+                        <img src={user?.image || user?.email?.charAt(0).toUpperCase() || "U"} alt="" />
                     </div>
 
                     {/* Input */}

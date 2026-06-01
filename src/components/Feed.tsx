@@ -26,7 +26,6 @@ export default function Feed() {
 
     const [pagination, setPagination] = useState<Pagination | null>(null);
 
-    // 🔥 FETCH (Ransack + Kaminari)
     const fetchProjects = async (term: string, page: number) => {
         try {
             setLoading(true);
@@ -51,7 +50,6 @@ export default function Feed() {
         }
     };
 
-    // ⏱️ debounce search + page
     useEffect(() => {
         const timeout = setTimeout(() => {
             fetchProjects(search, page);
@@ -60,7 +58,6 @@ export default function Feed() {
         return () => clearTimeout(timeout);
     }, [search, page]);
 
-    // 🔍 search handler (RESET PAGE)
     const handleSearch = (value: string) => {
         setSearch(value);
         setPage(1);

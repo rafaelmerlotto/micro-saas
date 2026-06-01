@@ -20,6 +20,7 @@ export async function getProjects(): Promise<any> {
     }
 
     const data = await res.json();
+    console.log("Response:", data);
     return data;
 }
 

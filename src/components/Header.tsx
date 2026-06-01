@@ -65,8 +65,8 @@ export default function Header() {
                             onMouseEnter={() => setIsDropdownOpen(true)}
                             className="flex items-center gap-2 rounded-full hover:bg-black/5 transition-colors p-1"
                         >
-                            <div className="h-9 w-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 text-white flex items-center justify-center text-sm font-medium shadow-md">
-                                {user?.email?.charAt(0).toUpperCase() || "U"}
+                            <div className="h-9 w-9 rounded-full  text-white flex items-center justify-center text-sm font-medium shadow-md">
+                                <img src={user?.image || user?.email?.charAt(0).toUpperCase() || "U"} alt="" />
                             </div>
                             <ChevronDown className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
                         </button>

@@ -49,8 +49,19 @@ export default function Comments({ comments, loading, projectID, onDeleteComment
                         >
 
                             {/* Avatar */}
-                            <div className="h-8 w-8 shrink-0 rounded-full bg-gradient-to-br from-blue-600/40 to-cyan-700/40 text-white flex items-center justify-center text-xs font-medium">
-                                {comment.user?.email?.charAt(0).toUpperCase()}
+                            <div className={`h-8 w-8 shrink-0 rounded-full flex items-center justify-center text-xs font-medium text-white ${comment.user?.image
+                                ? ''
+                                : 'bg-gradient-to-br from-blue-600/40 to-cyan-700/40'
+                                }`}>
+                                {comment.user?.image ? (
+                                    <img
+                                        src={comment.user.image}
+                                        alt="avatar"
+                                        className="h-full w-full rounded-full object-cover"
+                                    />
+                                ) : (
+                                    (comment.user?.email?.charAt(0).toUpperCase() || "U")
+                                )}
                             </div>
 
                             {/* Content */}
@@ -60,7 +71,7 @@ export default function Comments({ comments, loading, projectID, onDeleteComment
                                 <div className="flex flex-wrap items-center gap-2">
 
                                     <span className="text-sm font-medium text-gray-900 break-all">
-                                        {comment.user?.email}
+                                        {comment.user?.fullName || comment.user?.name || comment.user?.email.split("@")[0]}
                                     </span>
 
                                     <small className="text-xs text-gray-400">

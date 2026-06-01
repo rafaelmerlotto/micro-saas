@@ -1,8 +1,7 @@
 // components/GoogleLoginButton.jsx
 const GoogleLoginButton = () => {
     const handleGoogleLogin = () => {
-        const apiUrl: string =
-            import.meta.env.VITE_API_URL || "http://localhost:3000";
+        const apiUrl: string = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
         window.location.href =
             `${apiUrl}/api/v1/users/auth/google_oauth2`;

@@ -74,15 +74,15 @@ export default function Profile() {
                         <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
 
                             {/* Avatar */}
-                            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 text-4xl font-bold text-white shadow-lg">
-                                R
+                            <div className={`flex h-24 w-24 items-center ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/40 to-cyan-700/40'} justify-center rounded-full text-4xl font-bold text-white shadow-lg`}>
+                                <img src={user?.image || user?.email?.charAt(0).toUpperCase() || "U"} alt="" />
                             </div>
 
                             {/* Info */}
                             <div>
 
                                 <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                                    {user.email.split("@")[0]}
+                                    {user.fullName || user.name || user.email.split("@")[0]}
                                 </h1>
 
                                 <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-gray-500">

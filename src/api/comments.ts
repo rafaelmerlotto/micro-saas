@@ -20,8 +20,7 @@ export async function getComments(project_id: number): Promise<any> {
     }
 
     const data = await res.json();
-    console.log("Response:", data);
-    return data;
+    return data.comments;
 }
 
 
@@ -45,7 +44,7 @@ export async function createComment({ content, user, project }: Comment): Promis
 }
 
 
-export async function deleteComment( project : number, id: number): Promise<any> {
+export async function deleteComment(project: number, id: number): Promise<any> {
     const res = await fetch(`${url}/projects/${project}/comments/${id}`, {
         method: "DELETE",
         headers: {
