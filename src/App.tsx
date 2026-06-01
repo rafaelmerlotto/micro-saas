@@ -53,7 +53,7 @@ function OAuthSuccess() {
       try {
         localStorage.setItem("token", token);
 
-        const res = await fetch("http://localhost:3000/api/v1/me", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
