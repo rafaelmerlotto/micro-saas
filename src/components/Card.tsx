@@ -14,7 +14,7 @@ export type Project = {
     short_description: string;
     description?: string;
     stage: "idea" | "mvp" | "live" | string;
-    tech_stack: any;
+    tech_stack: [] | any;
     looking_for: string;
     website?: string;
     user_id?: number;
@@ -327,7 +327,7 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
 
             <div className="mt-4 flex flex-wrap gap-2">
 
-                {project.tech_stack?.map((tech: string) => (
+                {(Array.isArray(project.tech_stack) ? project.tech_stack : []).map((tech: string) => (
                     <span
                         key={tech}
                         className="rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-600"
