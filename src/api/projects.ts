@@ -51,6 +51,25 @@ export async function createProject({ title, short_description, description, sta
 }
 
 
+export const deleteProject = async (projectId: number): Promise<LikeResponse> => {
+    const token = localStorage.getItem("token");
+    const url = projectService;
+
+    const res = await fetch(`${url}/${projectId}/disable`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token ?? ""
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error("Errore nel delete");
+    }
+
+    return await res.json();
+};
+
 
 export const likeProject = async (projectId: number): Promise<LikeResponse> => {
     const token = localStorage.getItem("token");

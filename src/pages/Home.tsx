@@ -17,13 +17,14 @@ const Home = () => {
     const [projects, setProjects] = useState<Project[]>([]);
 
 
-
+    console.log("API URL RAW:", import.meta.env.VITE_API_URL);
+    console.log("FINAL URL:", `${import.meta.env.VITE_API_URL}/api/v1/projects/recent`);
+    
 
     useEffect(() => {
         const loadProjects = async () => {
             try {
-                const response = await fetch(
-                    `${import.meta.env.VITE_API_URL}/api/v1/projects/recent`,
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/projects/recent`,
                     {
                         method: "GET",
                         headers: {

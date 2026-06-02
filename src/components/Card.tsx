@@ -6,7 +6,7 @@ import type { Comment } from "../types/commentType";
 import Comments from "./Comments";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../auth/auth";
-import { likeProject, unlikeProject, bookmarkProject, unbookmarkProject, checkIfLiked, checkIfBookmarked, getLikeCount } from "../api/projects";
+import { likeProject, unlikeProject, bookmarkProject, unbookmarkProject, checkIfLiked, checkIfBookmarked, getLikeCount, deleteProject } from "../api/projects";
 
 export type Project = {
     id: number;
@@ -165,7 +165,12 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
     const handleDeleteProject = () => {
         console.log("Delete project:", project.id);
         if (window.confirm("Are you sure you want to delete this project?")) {
-            // Chiamata API per eliminare
+            deleteProject(project.id).then(() => {
+                console.log("Project deleted");
+                if (onUpdate) onUpdate();
+            }).catch((err) => {
+                console.error("Error deleting project:", err);
+            });
         }
     };
 
@@ -245,8 +250,8 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
                     >
                         <Heart
                             className={`w-5 h-5 transition ${isLiked
-                                    ? "fill-red-500 text-red-500"
-                                    : "text-gray-400 group-hover:text-red-500"
+                                ? "fill-red-500 text-red-500"
+                                : "text-gray-400 group-hover:text-red-500"
                                 }`}
                         />
                         {likeCount > 0 && (
@@ -262,8 +267,8 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
                     >
                         <Bookmark
                             className={`w-5 h-5 transition ${isBookmarked
-                                    ? "fill-black text-black"
-                                    : "text-gray-400 hover:text-black"
+                                ? "fill-black text-black"
+                                : "text-gray-400 hover:text-black"
                                 }`}
                         />
                     </button>

@@ -3,9 +3,6 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
-
-
-// https://vite.dev/config/
 export default defineConfig({
   build: {
     sourcemap: false
@@ -15,6 +12,9 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: false, // ← CRITICAL: Disables service worker in development
+      },
       manifest: {
         name: 'MicroSaaS',
         short_name: 'MicroSaaS',
@@ -39,5 +39,12 @@ export default defineConfig({
   ],
   server: {
     allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001', // ← CAMBIA DA 3000 A 3001
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   }
 })
