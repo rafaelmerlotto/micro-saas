@@ -33,6 +33,9 @@ export default function Profile() {
     }, [user?.id]);
 
 
+
+
+
     const getStageClass = (stage: string) => {
         switch (stage) {
             case "idea":
@@ -58,7 +61,7 @@ export default function Profile() {
 
             <div className="h-52 w-full bg-gradient-to-br from-blue-600/40 to-cyan-700/40" />
 
-            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
                 <div className="relative -mt-20 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
 
@@ -128,30 +131,23 @@ export default function Profile() {
                 </div>
 
                 {/* Stats */}
-                {/* <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
 
                     <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
                         <p className="text-sm text-gray-500">Projects</p>
                         <h3 className="mt-2 text-3xl font-bold text-gray-900">
-                            12
+                            {projects.length}
                         </h3>
                     </div>
 
-                    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-                        <p className="text-sm text-gray-500">Followers</p>
-                        <h3 className="mt-2 text-3xl font-bold text-gray-900">
-                            248
-                        </h3>
-                    </div>
 
                     <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
                         <p className="text-sm text-gray-500">Collaborations</p>
-                        <h3 className="mt-2 text-3xl font-bold text-gray-900">
-                            18
-                        </h3>
+                        <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">New feature</span>
+
                     </div>
 
-                </div> */}
+                </div>
 
                 <div className="mt-8">
 
