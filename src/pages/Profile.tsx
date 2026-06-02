@@ -90,11 +90,6 @@ export default function Profile() {
                                         {user.email}
                                     </div>
 
-                                    <div className="flex items-center gap-2">
-                                        <MapPin className="h-4 w-4" />
-                                        {user.location}
-                                    </div>
-
                                 </div>
 
                                 <p className="mt-4 max-w-2xl text-gray-600">
@@ -103,16 +98,7 @@ export default function Profile() {
 
                                 <div className="mt-5 flex flex-wrap gap-3">
 
-                                    <a
-                                        href={user.website}
-                                        target="_blank"
-                                        className="rounded-xl border border-gray-200 px-4 py-2 text-sm text-gray-700 transition hover:bg-gray-100"
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <Globe className="h-4 w-4" />
-                                            Website
-                                        </div>
-                                    </a>
+                                    <span className="text-gray-500 text-sm">member since: {new Date(user.created_at).toLocaleDateString()}</span>
 
                                 </div>
 
