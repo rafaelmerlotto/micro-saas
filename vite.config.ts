@@ -39,12 +39,5 @@ export default defineConfig({
   ],
   server: {
     allowedHosts: true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001', // ← CAMBIA DA 3000 A 3001
-        changeOrigin: true,
-        secure: false,
-      }
-    }
   }
 })

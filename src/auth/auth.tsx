@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { destroySession } from "../api/users";
+import { set } from "react-hook-form";
 
 
 interface AuthContextType {
@@ -33,7 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.removeItem('token');
         setToken(null);
         setUser(null);
-
+        destroySession(user.id);
         localStorage.clear();
     };
 

@@ -68,3 +68,19 @@ export async function userProjects(userId: number): Promise<any> {
     }
     return await res.json();
 }
+
+
+export async function destroySession(userId: number): Promise<any> {
+
+    const res = await fetch(`${url}/${userId}/destroy_session`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token ?? ""
+        },
+    });
+    if (!res.ok) {
+        throw new Error("An error occurred while processing the response.");
+    }
+    return await res.json();
+}
