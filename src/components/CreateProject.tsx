@@ -102,7 +102,7 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                         </select>
                     </div>
 
-                    ì                    <div>
+                    <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
                             {t("create_project.short_description")}
                         </label>
