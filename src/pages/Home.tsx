@@ -6,36 +6,22 @@ import type { Project } from '../components/Card';
 import Footer from '../components/Footer';
 
 
-const Home = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [rememberMe, setRememberMe] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [waitlistEmail, setWaitlistEmail] = useState('');
-    const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
+export default function Home() {
+
     const [projects, setProjects] = useState<Project[]>([]);
-
-
-    console.log("API URL RAW:", import.meta.env.VITE_API_URL);
-    console.log("FINAL URL:", `${import.meta.env.VITE_API_URL}/api/v1/projects/recent`);
-    
 
     useEffect(() => {
         const loadProjects = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/projects/recent`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/projects/recent`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
 
                 const data = await response.json();
                 setProjects(data);
-                console.log(data);
             } catch (error) {
                 console.error(error);
             }
@@ -65,13 +51,11 @@ const Home = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-600/40 to-cyan-700/40 relative overflow-hidden">
-            {/* Animated background elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
             </div>
 
-            {/* Header minimal */}
             <header className="py-4 px-4 sm:py-5 sm:px-6 flex justify-between items-center max-w-7xl mx-auto relative z-10">
                 <div className="flex items-center gap-2 group">
                     <img
@@ -87,9 +71,7 @@ const Home = () => {
                 </div>
             </header>
 
-            {/* Hero + Login Card Section */}
             <section className="flex flex-col lg:flex-row items-center justify-center gap-12 py-12 px-4 max-w-6xl mx-auto relative z-10">
-                {/* Left side: value proposition */}
                 <div className="flex-1 space-y-6 text-center lg:text-left animate-fade-in-up">
                     <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm mx-auto lg:mx-0 w-fit backdrop-blur-sm border border-white/20 shadow-lg">
                         <span className="animate-pulse">🇸🇮</span>
@@ -150,7 +132,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* How it works section (glassmorphic minimal) */}
             <section id="how" className="py-20 px-4 relative z-10">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-12">
@@ -179,7 +160,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Projects preview (minimal cards) */}
             <section id="projects" className="py-12 px-4 relative z-10">
                 <div className="max-w-6xl mx-auto">
                     <div className="flex justify-between items-end mb-6 flex-wrap gap-2">
@@ -215,7 +195,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Join Community CTA */}
             <section id="join" className="py-16 px-4 relative z-10">
                 <div className="max-w-2xl mx-auto">
                     <div className="bg-white/15 backdrop-blur-md rounded-2xl p-8 border border-white/30 text-center hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
@@ -238,5 +217,3 @@ const Home = () => {
         </div>
     );
 };
-
-export default Home;

@@ -13,17 +13,13 @@ export default function Profile() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
 
-
-
     useEffect(() => {
         if (!user?.id) return;
 
         const fetchData = async () => {
             try {
                 setLoading(true);
-
                 const data = await userProjects(user.id);
-
                 setProjects(data.projects ?? data);
 
             } catch (err) {
@@ -60,20 +56,16 @@ export default function Profile() {
 
             <Header />
 
-            {/* Cover */}
             <div className="h-52 w-full bg-gradient-to-br from-blue-600/40 to-cyan-700/40" />
 
             <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
-                {/* Profile header */}
                 <div className="relative -mt-20 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
 
                     <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
 
-                        {/* Left */}
                         <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
 
-                            {/* Avatar */}
                             <div className={`h-24 w-24 rounded-full ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/80 to-cyan-700/80'} text-white flex items-center justify-center text-3xl font-medium shadow-md`}>
                                 {user?.image ? (
                                     <img src={user.image} alt="" className="w-full h-full rounded-full object-cover" />
@@ -82,7 +74,6 @@ export default function Profile() {
                                 )}
                             </div>
 
-                            {/* Info */}
                             <div>
 
                                 <h1 className="text-3xl font-bold tracking-tight text-gray-900">
@@ -107,7 +98,6 @@ export default function Profile() {
                                     {user.bio}
                                 </p>
 
-                                {/* Links */}
                                 <div className="mt-5 flex flex-wrap gap-3">
 
                                     <a
@@ -127,10 +117,9 @@ export default function Profile() {
 
                         </div>
 
-                        {/* Right */}
                         <div className="flex items-center gap-3">
 
-                           
+
 
                         </div>
 
@@ -164,7 +153,6 @@ export default function Profile() {
 
                 </div> */}
 
-                {/* Projects */}
                 <div className="mt-8">
 
                     <div className="flex items-center justify-between">

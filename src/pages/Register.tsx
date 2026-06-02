@@ -64,13 +64,11 @@ export default function Register() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-600/40 to-cyan-700/40 relative overflow-hidden">
-            {/* Animated background elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
             </div>
 
-            {/* Header */}
             <header className="py-4 px-4 sm:py-5 sm:px-6 flex justify-between items-center max-w-7xl mx-auto relative z-10">
                 <div className="flex items-center gap-2 group">
                     <img src={logo} alt="Logo" className="w-8 sm:w-10 md:w-12 transition-all duration-500 group-hover:scale-105" />
@@ -120,7 +118,6 @@ export default function Register() {
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
-                            {/* Name Field */}
                             <div className="group">
                                 <label className="block text-xs sm:text-sm font-medium text-neutral-700 mb-1.5 sm:mb-2">
                                     Full Name
@@ -146,7 +143,6 @@ export default function Register() {
                                 )}
                             </div>
 
-                            {/* Email Field */}
                             <div className="group">
                                 <label className="block text-xs sm:text-sm font-medium text-neutral-700 mb-1.5 sm:mb-2">
                                     Email
@@ -172,7 +168,6 @@ export default function Register() {
                                 )}
                             </div>
 
-                            {/* Password Field */}
                             <div className="group">
                                 <label className="block text-xs sm:text-sm font-medium text-neutral-700 mb-1.5 sm:mb-2">
                                     Password
@@ -207,7 +202,6 @@ export default function Register() {
                                 )}
                             </div>
 
-                            {/* Confirm Password Field */}
                             <div className="group">
                                 <label className="block text-xs sm:text-sm font-medium text-neutral-700 mb-1.5 sm:mb-2">
                                     Confirm Password
@@ -237,7 +231,6 @@ export default function Register() {
                                 )}
                             </div>
 
-                            {/* Terms Agreement */}
                             <div className="flex items-start gap-2">
                                 <input
                                     type="checkbox"
@@ -261,7 +254,6 @@ export default function Register() {
                                 <p className="text-xs text-red-500 -mt-2">{errors.agreeToTerms.message}</p>
                             )}
 
-                            {/* Submit Button */}
                             <button
                                 type="submit"
                                 disabled={isLoading}
@@ -277,7 +269,6 @@ export default function Register() {
                                 )}
                             </button>
 
-                            {/* Login Link */}
                             <p className="text-center text-xs sm:text-sm text-neutral-500 mt-6 sm:mt-8 pt-4 border-t border-white/20">
                                 Already have an account?{' '}
                                 <button

@@ -16,7 +16,7 @@ export async function getComments(project_id: number): Promise<any> {
         },
     });
     if (!res.ok) {
-        throw new Error("Errore nella risposta");
+        throw new Error("An error occurred while processing the response.");
     }
 
     const data = await res.json();
@@ -38,7 +38,7 @@ export async function createComment({ content, user, project }: Comment): Promis
         }),
     });
     if (!res.ok) {
-        throw new Error("Errore nella risposta");
+        throw new Error("An error occurred while processing the response.");
     }
     return await res.json();
 }
@@ -53,7 +53,7 @@ export async function deleteComment(project: number, id: number): Promise<any> {
         },
     });
     if (!res.ok) {
-        throw new Error("Errore nella risposta");
+        throw new Error("An error occurred while processing the response.");
     }
     return await res.json();
 }

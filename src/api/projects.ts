@@ -18,7 +18,7 @@ export async function getProjects(): Promise<any> {
         },
     });
     if (!res.ok) {
-        throw new Error("Errore nella risposta");
+        throw new Error("An error occurred while processing the response.");
     }
 
     const data = await res.json();
@@ -45,7 +45,7 @@ export async function createProject({ title, short_description, description, sta
         }),
     });
     if (!res.ok) {
-        throw new Error("Errore nella risposta");
+        throw new Error("An error occurred while processing the response.");
     }
     return await res.json();
 }
@@ -64,7 +64,7 @@ export const deleteProject = async (projectId: number): Promise<LikeResponse> =>
     });
 
     if (!res.ok) {
-        throw new Error("Errore nel delete");
+        throw new Error("An error occurred while processing the response.");
     }
 
     return await res.json();
@@ -84,7 +84,7 @@ export const likeProject = async (projectId: number): Promise<LikeResponse> => {
     });
 
     if (!res.ok) {
-        throw new Error("Errore nel like");
+        throw new Error("An error occurred while processing the response.");
     }
 
     return await res.json();
@@ -103,7 +103,7 @@ export const unlikeProject = async (projectId: number): Promise<LikeResponse> =>
     });
 
     if (!res.ok) {
-        throw new Error("Errore nel unlike");
+        throw new Error("An error occurred while processing the response.");
     }
 
     return await res.json();
@@ -122,7 +122,7 @@ export const bookmarkProject = async (projectId: number): Promise<BookmarkRespon
     });
 
     if (!res.ok) {
-        throw new Error("Errore nel bookmark");
+        throw new Error("An error occurred while processing the response.");
     }
 
     return await res.json();
@@ -160,7 +160,7 @@ export const getLikedProjects = async (): Promise<Project[]> => {
     });
 
     if (!res.ok) {
-        throw new Error("Errore nel recupero progetti liked");
+        throw new Error("An error occurred while processing the response.");
     }
 
     return await res.json();
@@ -225,8 +225,7 @@ export const checkIfBookmarked = async (projectId: number): Promise<boolean> => 
     return data.bookmarked;
 };
 
-// Get like count for a project
-// Se il backend non ha ancora like_count, usa 0 di default
+
 export const getLikeCount = async (projectId: number): Promise<number> => {
     try {
         const res = await fetch(`${url}/${projectId}/like_count`, {

@@ -57,7 +57,7 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
 
     return (
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-0 max-h-[90vh] overflow-y-auto">
-            {/* Header */}
+
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 sticky top-0 bg-white z-10">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
                     {t("create_project.title")}
@@ -71,9 +71,7 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                {/* Grid layout per campi principali */}
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    {/* Title */}
                     <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
                             {t("create_project.name")} <span className="text-red-500">*</span>
@@ -89,7 +87,6 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                         )}
                     </div>
 
-                    {/* Stage */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
                             {t("create_project.stage")} <span className="text-red-500">*</span>
@@ -105,8 +102,7 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                         </select>
                     </div>
 
-                    {/* Short description */}
-                    <div>
+                    ì                    <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
                             {t("create_project.short_description")}
                         </label>
@@ -119,7 +115,6 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                     </div>
                 </div>
 
-                {/* Description - full width */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
                         {t("create_project.description")} <span className="text-red-500">*</span>
@@ -132,7 +127,6 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                     />
                 </div>
 
-                {/* Tech stack with dynamic tags */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
                         {t("create_project.tech_stack")} <span className="text-red-500">*</span>
@@ -156,7 +150,6 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                         </button>
                     </div>
 
-                    {/* Tech tags */}
                     {techStackArray.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-3">
                             {techStackArray.map((tech) => (
@@ -178,7 +171,6 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                     )}
                 </div>
 
-                {/* Grid per looking_for e website */}
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -205,10 +197,8 @@ export default function CreateProject({ setOpen, onProjectCreated }: CreateProje
                     </div>
                 </div>
 
-                {/* Hidden user field */}
                 <input type="hidden" {...register('user')} value={user?.id} />
 
-                {/* Actions */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200 sticky bottom-0 bg-white py-4">
                     <button
                         type="button"

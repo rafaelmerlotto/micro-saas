@@ -48,7 +48,6 @@ export default function Comments({ comments, loading, projectID, onDeleteComment
                             className="flex gap-3"
                         >
 
-                            {/* Avatar */}
                             <div className={`h-8 w-8 shrink-0 rounded-full flex items-center justify-center text-xs font-medium text-white ${comment.user?.image
                                 ? ''
                                 : 'bg-gradient-to-br from-blue-600/40 to-cyan-700/40'
@@ -64,10 +63,8 @@ export default function Comments({ comments, loading, projectID, onDeleteComment
                                 )}
                             </div>
 
-                            {/* Content */}
                             <div className="flex-1 min-w-0">
 
-                                {/* Header */}
                                 <div className="flex flex-wrap items-center gap-2">
 
                                     <span className="text-sm font-medium text-gray-900 break-all">
@@ -80,17 +77,14 @@ export default function Comments({ comments, loading, projectID, onDeleteComment
 
                                 </div>
 
-                                {/* Comment */}
                                 <div className="mt-1 rounded-xl bg-gray-50 border border-gray-100 px-4 py-3">
 
                                     <div className="flex items-start justify-between gap-3">
 
-                                        {/* Content */}
                                         <p className="text-sm text-gray-700 break-words flex-1">
                                             {comment.content}
                                         </p>
 
-                                        {/* Delete */}
                                         {comment.user?.id === user.id && (
                                             <button
                                                 onClick={() => handleDeleteComment(comment.id)}

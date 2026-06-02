@@ -31,7 +31,7 @@ export async function sign_up(email: string, password: string, fullName: string)
         body: JSON.stringify({ user: { email, password, fullName } }),
     });
     if (!res.ok) {
-        throw new Error('Login failed.');
+        throw new Error('Reistration failed.');
     }
     const data = await res.json();
     return data;

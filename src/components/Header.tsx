@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router";
 import logo from "../assets/images/logo@.png";
 
 export default function Header() {
+
     const { user, logout } = useAuth();
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -17,7 +18,6 @@ export default function Header() {
     const mobileDropdownRef = useRef<HTMLDivElement>(null);
     const mobileMenuRef = useRef<HTMLDivElement>(null);
 
-    // Close desktop dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target as Node)) {
@@ -53,7 +53,7 @@ export default function Header() {
     return (
         <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/20 bg-white/90 backdrop-blur-md shadow-sm">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-                {/* Left - Logo */}
+
                 <div className="flex items-center gap-3">
                     <Link to="/dashboard" className="flex items-center gap-2 group">
                         <img
@@ -67,10 +67,8 @@ export default function Header() {
                     </Link>
                 </div>
 
-                {/* Right - Actions */}
                 <div className="flex items-center gap-2 sm:gap-4">
 
-                    {/* User Dropdown - Desktop */}
                     <div className="hidden md:block relative" ref={desktopDropdownRef}>
                         <button
                             onClick={() => setIsDesktopDropdownOpen(!isDesktopDropdownOpen)}
@@ -87,7 +85,6 @@ export default function Header() {
                             <ChevronDown className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${isDesktopDropdownOpen ? "rotate-180" : ""}`} />
                         </button>
 
-                        {/* Dropdown Menu Desktop */}
                         {isDesktopDropdownOpen && (
                             <div
                                 className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-1 z-50"
@@ -115,7 +112,6 @@ export default function Header() {
                         )}
                     </div>
 
-                    {/* User Avatar - Mobile */}
                     <div className="md:hidden relative" ref={mobileDropdownRef}>
                         <button
                             onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
@@ -126,7 +122,6 @@ export default function Header() {
                             </div>
                         </button>
 
-                        {/* Dropdown Menu Mobile */}
                         {isMobileDropdownOpen && (
                             <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 py-1 z-50">
                                 <div className="px-4 py-3 border-b border-gray-100">
@@ -153,7 +148,6 @@ export default function Header() {
                 </div>
             </div>
 
-            {/* Mobile Menu - Full Screen Navigation */}
             {isMobileMenuOpen && (
                 <div
                     ref={mobileMenuRef}

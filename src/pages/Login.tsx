@@ -10,6 +10,7 @@ import { sign_in } from '../api/users';
 import Footer from '../components/Footer';
 
 export default function Login() {
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -25,16 +26,15 @@ export default function Login() {
 
         try {
             const response = await sign_in(email, password);
-            console.log("Risposta dal server:", response.user);
+
             if (response.token) {
                 login(response.token, response.user)
                 navigate("/dashboard")
             } else {
-                throw new Error("Token mancante nella risposta");
+                throw new Error("Missing token in the response.");
             }
         } catch (err) {
-            console.error("Errore nel login:", err);
-            alert("Login fallito. Verifica le credenziali.");
+            alert("Login failed. Please check your credentials.");
         } finally {
             setIsLoading(false);
         }
@@ -43,13 +43,11 @@ export default function Login() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-600/40 to-cyan-700/40 relative overflow-hidden">
-            {/* Animated background elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
             </div>
 
-            {/* Header */}
             <header className="py-4 px-4 sm:py-5 sm:px-6 flex justify-between items-center max-w-7xl mx-auto relative z-10">
                 <div className="flex items-center gap-2 group">
                     <img src={logo} alt="Logo" className="w-8 sm:w-10 md:w-12 transition-all duration-500 group-hover:scale-105" />

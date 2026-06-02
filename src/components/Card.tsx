@@ -37,20 +37,14 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const { user } = useAuth();
-
-    // State per il dropdown
     const [isEllipsisOpen, setIsEllipsisOpen] = useState(false);
-
-    // State per like e bookmark
     const [isLiked, setIsLiked] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [likeCount, setLikeCount] = useState(project.like_count || 0);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Verifica se l'utente corrente è il proprietario del progetto
     const isCurrentUserOwner = project.user?.id === user?.id || project.user_id === user?.id;
 
-    // Carica lo stato iniziale di like e bookmark
     useEffect(() => {
         if (user) {
             loadInteractionStatus();
@@ -85,7 +79,7 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
             }, 2000);
 
         } catch (error) {
-            console.error("Errore nell'invio:", error);
+            console.error("Failed to send:", error);
         } finally {
             setIsSubmitting(false);
         }
@@ -109,11 +103,9 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
         );
     };
 
-    // Handlers per like e bookmark
     const handleLike = async () => {
         if (!user) {
-            // Redirect to login o mostra notifica
-            console.log("Devi essere loggato per mettere like");
+            console.log("You must be logged in to like");
             return;
         }
 
@@ -159,7 +151,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
     // Handlers per il dropdown
     const handleEdit = () => {
         console.log("Edit project:", project.id);
-        // Naviga alla pagina di edit o apri un modal
     };
 
     const handleDeleteProject = () => {
@@ -176,10 +167,8 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
 
     const handleReport = () => {
         console.log("Report project:", project.id);
-        // Mostra un modal per la segnalazione
         const reason = prompt("Why are you reporting this project?");
         if (reason) {
-            // Chiamata API per segnalare
             console.log("Report reason:", reason);
         }
     };
@@ -203,10 +192,8 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
     return (
         <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6 hover:border-gray-300 transition">
 
-            {/* Top */}
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 
-                {/* User */}
                 <div className="flex items-center gap-3">
 
                     <div className={`h-9 w-9 shrink-0 rounded-full flex items-center justify-center text-xs font-medium text-white ${project.user?.image
@@ -236,13 +223,11 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
 
                 </div>
 
-                {/* Actions */}
                 <div className="flex items-center gap-3 self-end sm:self-auto">
                     <span className={`rounded-full ${bgClass} px-3 py-1 text-xs font-medium capitalize whitespace-nowrap`}>
                         {project.stage}
                     </span>
 
-                    {/* Like Button */}
                     <button
                         onClick={handleLike}
                         disabled={isLoading}
@@ -259,7 +244,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
                         )}
                     </button>
 
-                    {/* Bookmark Button */}
                     <button
                         onClick={handleBookmark}
                         disabled={isLoading}
@@ -273,7 +257,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
                         />
                     </button>
 
-                    {/* Dropdown per Ellipsis */}
                     <div className="relative">
                         <button onClick={() => setIsEllipsisOpen(!isEllipsisOpen)}>
                             <Ellipsis className="w-5 h-5 text-gray-400 hover:text-black transition" />
@@ -281,16 +264,13 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
 
                         {isEllipsisOpen && (
                             <>
-                                {/* Backdrop per chiudere cliccando fuori */}
                                 <div
                                     className="fixed inset-0 z-40"
                                     onClick={() => setIsEllipsisOpen(false)}
                                 />
 
-                                {/* Dropdown Menu */}
                                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
                                     {isCurrentUserOwner ? (
-                                        // Opzioni per il proprietario del post
                                         <>
                                             <button
                                                 onClick={() => {
@@ -314,7 +294,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
                                             </button>
                                         </>
                                     ) : (
-                                        // Opzioni per altri utenti
                                         <button
                                             onClick={() => {
                                                 setIsEllipsisOpen(false);
@@ -334,7 +313,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
 
             </div>
 
-            {/* Content */}
             <div className="mt-5">
 
                 <h3 className="text-lg sm:text-xl font-semibold text-gray-900 break-words">
@@ -347,7 +325,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
 
             </div>
 
-            {/* Tech stack */}
             <div className="mt-4 flex flex-wrap gap-2">
 
                 {project.tech_stack?.map((tech: string) => (
@@ -361,7 +338,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
 
             </div>
 
-            {/* Looking for */}
             <div className="mt-4 text-sm text-gray-700 break-words">
                 <span className="font-medium text-gray-900">
                     {t("card.looking_for")}
@@ -369,7 +345,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
                 {project.looking_for}
             </div>
 
-            {/* Website */}
             {project.website && (
                 <a
                     href={project.website}
@@ -382,12 +357,10 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
                 </a>
             )}
 
-            {/* Footer */}
             <div className="mt-5 border-t border-gray-100 pt-4">
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
 
-                    {/* Avatar */}
                     <div className={`hidden sm:flex h-9 w-9 rounded-full ${user?.image ? '' : 'bg-gradient-to-br from-blue-600/80 to-cyan-700/80'} text-white items-center justify-center text-xs font-medium shrink-0`}>
                         {user?.image ? (
                             <img src={user.image} alt="" className="w-full h-full rounded-full object-cover" />
@@ -396,7 +369,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
                         )}
                     </div>
 
-                    {/* Input */}
                     <input
                         {...register('content', { required: true })}
                         type="text"
@@ -407,7 +379,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
                     <input type="text" {...register('user', { required: true })} value={user?.id} className="hidden" />
                     <input type="text" {...register('project', { required: true })} value={project.id} className="hidden" />
 
-                    {/* Button */}
                     <button
                         onClick={handleSubmit(onSubmit)}
                         disabled={isSubmitting}
@@ -419,7 +390,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
 
             </div>
 
-            {/* Comments */}
             <div className="mt-5">
                 <Comments comments={comments} loading={loading} projectID={project.id} onDeleteComment={handleDeleteComment} />
             </div>

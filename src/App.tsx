@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router"
+import { BrowserRouter, Navigate, Route, Routes, useNavigate, type NavigateFunction } from "react-router"
 import Login from "./pages/Login"
 import { useEffect, type JSX } from "react"
 import { useAuth } from "./auth/auth"
@@ -14,10 +14,11 @@ export default function App() {
 
   return (
     <BrowserRouter>
+
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Register />} />
+        <Route path='/' element={<PublicRoute><Home /></PublicRoute>} />
+        <Route path='/login' element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path='/signup' element={<PublicRoute><Register /></PublicRoute>} />
         <Route path='/privacy' element={<PrivacyPolicy />} />
         <Route path='/terms' element={<TermsOfUse />} />
         <Route path='/dashboard' element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
@@ -36,6 +37,21 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { isAuthenticated } = useAuth();
 
   return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
+
+type PublicRouteProps = {
+  children: JSX.Element;
+};
+
+const PublicRoute = ({ children }: PublicRouteProps) => {
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+
 };
 
 

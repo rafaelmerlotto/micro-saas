@@ -4,7 +4,7 @@ import { useAuth } from "../auth/auth";
 
 export default function Sidebar() {
     const location = useLocation();
-     const { logout } = useAuth()
+    const { logout } = useAuth()
 
     const menu = [
         { name: "Dashboard", path: "/dashboard" },
@@ -17,13 +17,11 @@ export default function Sidebar() {
     return (
         <div className="h-screen w-64 bg-white border-r border-gray-200 flex flex-col">
 
-            {/* Logo */}
             <div className="inline-flex items-center justify-center p-4 border-b border-gray-200">
                 <img src={logo} alt="Logo" className="w-20 md:w-20  transition-opacity duration-500" />
             </div>
 
-            {/* Menu */}
-            <nav className="flex-1 px-4 space-y-2"> 
+            <nav className="flex-1 px-4 space-y-2">
                 {menu.map((item) => {
                     const isActive = location.pathname === item.path;
 
@@ -42,7 +40,6 @@ export default function Sidebar() {
                 })}
             </nav>
 
-            {/* Bottom */}
             <div className="p-4 border-t border-gray-200">
                 <button
                     onClick={logout}

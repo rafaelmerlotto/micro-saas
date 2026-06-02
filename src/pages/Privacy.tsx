@@ -3,17 +3,15 @@ import { Shield, Lock, Database, Cookie, Mail, Globe, AlertCircle, CheckCircle, 
 import Footer from '../components/Footer';
 import logo from '../assets/images/logo@.png';
 
-const PrivacyPolicy = () => {
+export default function PrivacyPolicy() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-600/40 to-cyan-700/40 relative overflow-hidden">
-            {/* Animated background elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
             </div>
 
-            {/* Header */}
             <header className="py-4 px-4 sm:py-5 sm:px-6 flex justify-between items-center max-w-7xl mx-auto relative z-10">
                 <div className="flex items-center gap-2 group">
                     <img src={logo} alt="Logo" className="w-8 sm:w-10 md:w-12 transition-all duration-500 group-hover:scale-105" />
@@ -27,10 +25,8 @@ const PrivacyPolicy = () => {
                 </button>
             </header>
 
-            {/* Main Content */}
             <section className="py-8 sm:py-12 px-4 relative z-10">
                 <div className="max-w-4xl mx-auto">
-                    {/* Header Card */}
                     <div className="text-center mb-8 sm:mb-12 animate-fade-in-up">
                         <div className="inline-flex items-center justify-center mb-4">
                             <div className="bg-white/15 backdrop-blur-md rounded-full p-4 border border-white/30">
@@ -49,9 +45,7 @@ const PrivacyPolicy = () => {
                         </div>
                     </div>
 
-                    {/* Content Cards */}
                     <div className="space-y-4 sm:space-y-6">
-                        {/* Introduction */}
                         <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <h2 className="text-xl sm:text-2xl font-semibold text-neutral-800 mb-3 sm:mb-4 flex items-center gap-2">
                                 <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-600" />
@@ -65,7 +59,6 @@ const PrivacyPolicy = () => {
                             </p>
                         </div>
 
-                        {/* Information We Collect */}
                         <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <h2 className="text-xl sm:text-2xl font-semibold text-neutral-800 mb-3 sm:mb-4 flex items-center gap-2">
                                 <Database className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-600" />
@@ -94,7 +87,6 @@ const PrivacyPolicy = () => {
                             </div>
                         </div>
 
-                        {/* How We Use Your Information */}
                         <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <h2 className="text-xl sm:text-2xl font-semibold text-neutral-800 mb-3 sm:mb-4 flex items-center gap-2">
                                 <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-600" />
@@ -119,7 +111,6 @@ const PrivacyPolicy = () => {
                             </div>
                         </div>
 
-                        {/* Cookies & Tracking */}
                         <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <h2 className="text-xl sm:text-2xl font-semibold text-neutral-800 mb-3 sm:mb-4 flex items-center gap-2">
                                 <Cookie className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-600" />
@@ -133,7 +124,6 @@ const PrivacyPolicy = () => {
                             </p>
                         </div>
 
-                        {/* Data Security */}
                         <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <h2 className="text-xl sm:text-2xl font-semibold text-neutral-800 mb-3 sm:mb-4 flex items-center gap-2">
                                 <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-600" />
@@ -149,7 +139,6 @@ const PrivacyPolicy = () => {
                             </div>
                         </div>
 
-                        {/* Your Rights */}
                         <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
                             <h2 className="text-xl sm:text-2xl font-semibold text-neutral-800 mb-3 sm:mb-4 flex items-center gap-2">
                                 <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-600" />
@@ -178,7 +167,6 @@ const PrivacyPolicy = () => {
                             </p>
                         </div>
 
-                        {/* Contact Us */}
                         <div className="bg-gradient-to-br from-blue-600/20 to-cyan-700/20 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 border border-white/30">
                             <h2 className="text-xl sm:text-2xl font-semibold text-neutral-800 mb-3 sm:mb-4 flex items-center gap-2">
                                 <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-600" />
@@ -194,7 +182,6 @@ const PrivacyPolicy = () => {
                         </div>
                     </div>
 
-                    {/* Footer Note */}
                     <div className="mt-8 sm:mt-12 text-center">
                         <p className="text-neutral-500 text-xs sm:text-sm">
                             This Privacy Policy is effective as of {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -211,4 +198,3 @@ const PrivacyPolicy = () => {
     );
 };
 
-export default PrivacyPolicy;
