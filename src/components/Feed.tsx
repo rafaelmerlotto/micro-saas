@@ -60,6 +60,16 @@ export default function Feed() {
         setPage(1);
     };
 
+    const handleProjectDelete = (deletedId: number) => {
+        setProjects(prev => prev.filter(p => p.id !== deletedId));
+    };
+
+    const handleProjectUpdate = () => {
+        fetchProjects(search, page);
+    };
+
+
+
     return (
         <div className="min-h-screen bg-gray-50">
 
@@ -138,7 +148,7 @@ export default function Feed() {
 
                 <div className="space-y-6">
                     {projects.map((project) => (
-                        <ProjectCard key={project.id} project={project} />
+                        <ProjectCard key={project.id} project={project} onUpdate={handleProjectUpdate} onDelete={handleProjectDelete} />
                     ))}
                 </div>
 

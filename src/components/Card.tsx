@@ -6,7 +6,7 @@ import type { Comment } from "../types/commentType";
 import Comments from "./Comments";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../auth/auth";
-import { likeProject, unlikeProject, bookmarkProject, unbookmarkProject, checkIfLiked, checkIfBookmarked, getLikeCount, deleteProject } from "../api/projects";
+import { bookmarkProject, unbookmarkProject, deleteProject, toggleLike } from "../api/projects";
 
 export type Project = {
     id: number;
@@ -18,7 +18,9 @@ export type Project = {
     looking_for: string;
     website?: string;
     user_id?: number;
-    like_count?: number;
+    liked?: boolean | any;
+    bookmarked?: boolean | any;
+    likes_count?: number;
     user?: {
         id?: number;
         email: string;
@@ -26,45 +28,33 @@ export type Project = {
         name: string;
         image: string;
     };
+    comments: Comment[];
 };
 
-export default function ProjectCard({ project, onUpdate }: { project: Project; onUpdate?: () => void }) {
 
+export default function ProjectCard({ project, onUpdate, onDelete }: { project: Project; onUpdate?: () => void; onDelete?: (id: number) => void; }) {
     const { t } = useTranslation();
-    const [comments, setComments] = useState<Comment[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [comments, setComments] = useState<Comment[]>(project.comments || []);
+    const [loading, setLoading] = useState(false);
     const { register, handleSubmit, reset } = useForm<Comment>();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const { user } = useAuth();
     const [isEllipsisOpen, setIsEllipsisOpen] = useState(false);
-    const [isLiked, setIsLiked] = useState(false);
-    const [isBookmarked, setIsBookmarked] = useState(false);
-    const [likeCount, setLikeCount] = useState(project.like_count || 0);
+    const [isLiked, setIsLiked] = useState<boolean>(() => {
+        const saved = localStorage.getItem(`liked_${project.id}`);
+        return saved !== null ? JSON.parse(saved) : (project.liked || false);
+    });
+    const [isBookmarked, setIsBookmarked] = useState<boolean>(() => {
+        const saved = localStorage.getItem(`bookmarked_${project.id}`);
+        return saved !== null ? JSON.parse(saved) : (project.bookmarked || false);
+    });
+    const [likeCount, setLikeCount] = useState(project.likes_count || 0);
     const [isLoading, setIsLoading] = useState(false);
+
 
     const isCurrentUserOwner = project.user?.id === user?.id || project.user_id === user?.id;
 
-    useEffect(() => {
-        if (user) {
-            loadInteractionStatus();
-        }
-    }, [user, project.id]);
-
-    const loadInteractionStatus = async () => {
-        try {
-            const [liked, bookmarked, count] = await Promise.all([
-                checkIfLiked(project.id),
-                checkIfBookmarked(project.id),
-                getLikeCount(project.id)
-            ]);
-            setIsLiked(liked);
-            setIsBookmarked(bookmarked);
-            setLikeCount(count);
-        } catch (error) {
-            console.error("Error loading interaction status:", error);
-        }
-    };
 
     const onSubmit = async (data: Comment) => {
         setIsSubmitting(true);
@@ -85,18 +75,6 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
         }
     };
 
-    useEffect(() => {
-        getComments(project.id).then((res: any) => {
-            setTimeout(() => {
-                setComments(res);
-                setLoading(false);
-            }, 500);
-        }).catch((err) => {
-            console.error("Error fetching comments:", err);
-            setLoading(false);
-        });
-    }, [project.id]);
-
     const handleDeleteComment = (id: number) => {
         setComments((prev) =>
             prev.filter((c) => c.id !== id)
@@ -110,58 +88,78 @@ export default function ProjectCard({ project, onUpdate }: { project: Project; o
         }
 
         setIsLoading(true);
+        const previousLiked = isLiked;
+        const previousCount = likeCount;
+
         try {
-            if (isLiked) {
-                const response = await unlikeProject(project.id);
-                setIsLiked(false);
-                setLikeCount(response.like_count);
-            } else {
-                const response = await likeProject(project.id);
-                setIsLiked(true);
-                setLikeCount(response.like_count);
-            }
+            const response = await toggleLike(project.id, isLiked);
+
+            setIsLiked(response.liked);
+            setLikeCount(response.like_count);
+
+            // Salva nel localStorage
+            localStorage.setItem(`liked_${project.id}`, JSON.stringify(response.liked));
+            localStorage.setItem(`likecount_${project.id}`, response.like_count.toString());
+
             if (onUpdate) onUpdate();
         } catch (error) {
+            setIsLiked(previousLiked);
+            setLikeCount(previousCount);
             console.error("Error toggling like:", error);
         } finally {
             setIsLoading(false);
         }
     };
 
+
     const handleBookmark = async () => {
         if (!user) return;
 
         setIsLoading(true);
+        const previousBookmarked = isBookmarked;
+
         try {
+            let response;
             if (isBookmarked) {
-                await unbookmarkProject(project.id);
-                setIsBookmarked(false);
+                response = await unbookmarkProject(project.id);
+                setIsBookmarked(response.bookmarked);
+                localStorage.setItem(`bookmarked_${project.id}`, JSON.stringify(response.bookmarked));
             } else {
-                await bookmarkProject(project.id);
-                setIsBookmarked(true);
+                response = await bookmarkProject(project.id);
+                setIsBookmarked(response.bookmarked);
+                localStorage.setItem(`bookmarked_${project.id}`, JSON.stringify(response.bookmarked));
             }
             if (onUpdate) onUpdate();
         } catch (error) {
+            setIsBookmarked(previousBookmarked);
             console.error("Error toggling bookmark:", error);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Handlers per il dropdown
+
     const handleEdit = () => {
         console.log("Edit project:", project.id);
     };
 
-    const handleDeleteProject = () => {
-        console.log("Delete project:", project.id);
-        if (window.confirm("Are you sure you want to delete this project?")) {
-            deleteProject(project.id).then(() => {
-                console.log("Project deleted");
-                if (onUpdate) onUpdate();
-            }).catch((err) => {
-                console.error("Error deleting project:", err);
-            });
+    const handleDeleteProject = async () => {
+        if (!window.confirm("Are you sure you want to delete this project?")) return;
+
+        try {
+            setIsLoading(true);
+            await deleteProject(project.id);
+
+            if (onDelete) {
+                onDelete(project.id);
+            } else if (onUpdate) {
+                onUpdate();
+            }
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 

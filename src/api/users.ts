@@ -60,7 +60,7 @@ export async function userProjects(userId: number): Promise<any> {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": token ?? ""
+            Authorization: token ?? ""
         },
     });
     if (!res.ok) {

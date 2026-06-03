@@ -14,7 +14,7 @@ export async function getProjects(): Promise<any> {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": token ?? ""
+            Authorization: token ?? ""
         },
     });
     if (!res.ok) {
