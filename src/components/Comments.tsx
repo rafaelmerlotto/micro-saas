@@ -72,7 +72,7 @@ export default function Comments({ comments, loading, projectID, onDeleteComment
                                     </span>
 
                                     <small className="text-xs text-gray-400">
-                                        3 days ago
+                                        {comment.created_ago}
                                     </small>
 
                                 </div>

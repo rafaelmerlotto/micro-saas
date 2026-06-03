@@ -21,6 +21,7 @@ export type Project = {
     liked?: boolean | any;
     bookmarked?: boolean | any;
     likes_count?: number;
+    created_ago: string;
     user?: {
         id?: number;
         email: string;
@@ -215,7 +216,7 @@ export default function ProjectCard({ project, onUpdate, onDelete }: { project: 
                         </span>
 
                         <small className="text-gray-400 text-xs">
-                            3 days ago
+                            {project.created_ago}
                         </small>
                     </div>
 
