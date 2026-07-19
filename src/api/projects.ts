@@ -254,3 +254,23 @@ export const toggleBookmark = async (projectId: number, currentlyBookmarked: boo
         return await bookmarkProject(projectId);
     }
 };
+
+
+export const RequestCollaboration = async (projectId: number): Promise<LikeResponse> => {
+    const token = localStorage.getItem("token");
+    const url = projectService; // Usa la tua config esistente
+
+    const res = await fetch(`${url}/${projectId}/like`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token ?? ""
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error("An error occurred while processing the response.");
+    }
+
+    return await res.json();
+};

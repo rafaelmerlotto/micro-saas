@@ -49,5 +49,12 @@
         "website": "Website",
         "website_placeholder": "https://...",
         "create": "Create"
+    },
+    "create_collaboration_request": {
+        "title": "Send a collaboration request",
+        "title_placeholder": "Why collaborate?",
+        "name": "Collaboration request Name",
+        "description": "Describe your collaboration idea",
+        "send": "Send"
     }
 }

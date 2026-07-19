@@ -31,7 +31,6 @@ export default function Home() {
     }, []);
 
 
-
     const getStageClass = (stage: string) => {
         switch (stage) {
             case "idea":

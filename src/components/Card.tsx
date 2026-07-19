@@ -1,4 +1,4 @@
-import { Bookmark, Ellipsis, Heart, SquareArrowOutUpRight, Edit, Trash2, Flag } from "lucide-react";
+import { Bookmark, Ellipsis, Heart, SquareArrowOutUpRight, Edit, Trash2, Flag, UserStar, Handshake } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createComment, deleteComment, getComments } from "../api/comments";
@@ -7,6 +7,8 @@ import Comments from "./Comments";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../auth/auth";
 import { bookmarkProject, unbookmarkProject, deleteProject, toggleLike } from "../api/projects";
+import Modal from "./Modal";
+import CreateCollaborationRequest from "./CreateCollaborationRequest";
 
 export type Project = {
     id: number;
@@ -41,6 +43,7 @@ export default function ProjectCard({ project, onUpdate, onDelete }: { project: 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const { user } = useAuth();
+    const [open, setOpen] = useState(false);
     const [isEllipsisOpen, setIsEllipsisOpen] = useState(false);
     const [isLiked, setIsLiked] = useState<boolean>(() => {
         const saved = localStorage.getItem(`liked_${project.id}`);
@@ -228,6 +231,15 @@ export default function ProjectCard({ project, onUpdate, onDelete }: { project: 
                     </span>
 
                     <button
+                        onClick={() => setOpen(true)}
+                        disabled={isLoading}
+                        className="flex items-center gap-1 group transition disabled:opacity-50 cursor-pointer"
+                    >
+                        <Handshake className="w-5 h-5 text-teal-600 hover:text-teal-500" />
+
+                    </button>
+
+                    <button
                         onClick={handleLike}
                         disabled={isLoading}
                         className="flex items-center gap-1 group transition disabled:opacity-50"
@@ -392,6 +404,17 @@ export default function ProjectCard({ project, onUpdate, onDelete }: { project: 
             <div className="mt-5">
                 <Comments comments={comments} loading={loading} projectID={project.id} onDeleteComment={handleDeleteComment} />
             </div>
+
+            <Modal
+                isOpen={open}
+                onClose={() => setOpen(false)}
+            >
+                <CreateCollaborationRequest
+                    setOpen={setOpen}
+                    onCollaborationRequestCreated={(collaborationRequest) => collaborationRequest}
+                    projectId={project.id}
+                />
+            </Modal>
 
         </div>
     );

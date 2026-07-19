@@ -147,7 +147,7 @@ export default function Profile() {
 
                     <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
 
-                        {projects.map((p: any, i) => (
+                        {projects.slice(0, 4).map((p: any, i) => (
 
                             <div
                                 key={i}
@@ -173,12 +173,16 @@ export default function Profile() {
                         ))}
 
                     </div>
+                    <div className="mt-10">
+                        <span className=" p-4 mt-8 text-xs text-neutral-700">See all...</span>
+
+                    </div>
 
                 </div>
 
             </div>
             <Footer />
 
-        </div>
+        </div >
     );
 }
