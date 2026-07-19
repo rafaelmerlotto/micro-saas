@@ -20,7 +20,8 @@
         "publish": "Publish project",
         "discover": "Discover SaaS Ideas",
         "description": "Find projects, founders and collaboration opportunities",
-        "loading": "Loading projects..."
+        "loading": "Loading projects...",
+        "search": "Search projects..."
     },
     "header": {
         "home": "Home",
