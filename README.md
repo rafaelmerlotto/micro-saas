@@ -1,73 +1,65 @@
-# React + TypeScript + Vite
+# MicroSaaS.si - Slovenian SaaS Community
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![License: MIT](https://img.shields.io/github/license/rafaelmerlotto/microsaas-si.svg)](https://github.com/rafaelmerlotto/microsaas-si)
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Overview
 
-## React Compiler
+MicroSaaS.si is a community-driven platform designed to foster the Slovenian SaaS ecosystem. It's a frontend application built with React, connecting to a backend API built with Ruby on Rails.  It’s inspired by the MicroSaaS movement and provides a focused, local network for founders and makers to share ideas, validate concepts, and connect with collaborators.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Key Features
 
-## Expanding the ESLint configuration
+* **Project Posting:** Users can easily create and share their MicroSaaS project ideas.
+* **Concept Validation:**  A space for early-stage ideas to receive feedback and validation.
+* **Collaboration Network:** Connect with potential collaborators within the Slovenian SaaS community.
+* **Discover Opportunities:**  Browse active projects and explore potential ventures.
+* **Community Focus:** Dedicated to supporting the growth of MicroSaaS in Slovenia.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Technology Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* **Frontend:** React.js
+* **Backend:** Ruby on Rails
+* **API:** RESTful API
+* **Database:** (PostgreSQL)
+* **Deployment:** (Vercel, Render)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Architecture
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The application follows a classic client-server architecture:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+* **Frontend (React):**  The user interface, built with React, consumes the API endpoints provided by the backend.
+* **Backend (Rails):**  Handles business logic, manages the database, and exposes the API endpoints.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Getting Started
+
+**Prerequisites:**
+
+* Node.js and npm (or yarn) installed
+* Ruby and Rails installed (or access to a Rails environment)
+
+**Steps:**
+
+1. **Clone the Repository:** `git clone https://github.com/rafaelmerlotto/microsaas-si.git`
+2. **Install Dependencies:**
+   * **Frontend:** `cd micro-saas` and `npm install`
+3. **Run the Application:**
+    * **Frontend:** `npm run dev` (this usually starts a development server)
+4. **Access the Application:**  Open your browser and navigate to the address provided by the frontend development server.
+
+## API Documentation
+
+* N/A
+
+## Contributing
+
+We welcome contributions to MicroSaaS.si!  Please see our [Contributing Guidelines](CONTRIBUTING.md) for more information.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+* Rafael Merlotto
+* [MicroSaaS.si](https://www.microsaas.si/)
